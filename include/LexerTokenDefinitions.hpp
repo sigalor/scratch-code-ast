@@ -6,7 +6,6 @@
 #include <string>
 
 
-
 namespace ast
 {
 	namespace Lexer
@@ -72,12 +71,9 @@ namespace ast
 			Invalid = -1,
 			Void,
 			Bool,
-			Char,
-			Short,
 			Int,
-			Long,
-			Float,
-			Double
+			Real,
+			String
 		};
 
 		enum class ParsedUnaryOperation : UnderlyingTokenType

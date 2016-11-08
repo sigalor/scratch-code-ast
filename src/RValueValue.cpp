@@ -37,6 +37,8 @@ namespace ast
 		if(inputType == Lexer::ParsedRValueValueType::Invalid)
 			return;
 		
+		throw RValueValueParseException("RValueValue parsing is not implemented yet");
+		/*
 		using rvt = Lexer::ParsedRValueValueType;
 		using pvt = Lexer::ParsedVariableType;
 		if(inputType == rvt::Bool)
@@ -135,6 +137,6 @@ namespace ast
 		{
 			double val = strtod(newValue.c_str(), nullptr);
 			setValueRaw(&val);
-		}
+		}*/
 	}
 }

@@ -45,12 +45,9 @@ namespace ast
 				case ParsedVariableType::Invalid						: return "Invalid";
 				case ParsedVariableType::Void							: return "Void";
 				case ParsedVariableType::Bool							: return "Bool";
-				case ParsedVariableType::Char							: return "Char";
-				case ParsedVariableType::Short							: return "Short";
 				case ParsedVariableType::Int							: return "Int";
-				case ParsedVariableType::Long							: return "Long";
-				case ParsedVariableType::Float							: return "Float";
-				case ParsedVariableType::Double							: return "Double";
+				case ParsedVariableType::Real							: return "Real";
+				case ParsedVariableType::String							: return "String";
 				default													: return "Unknown";
 			}
 		}
