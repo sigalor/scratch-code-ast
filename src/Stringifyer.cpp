@@ -144,19 +144,14 @@ namespace ast
 		else if(obj->getId() == RValueValue::uniqueId)
 		{
 			std::shared_ptr<RValueValue> objReal(std::static_pointer_cast<RValueValue>(obj));
-			const std::vector<uint8_t>& value = objReal->getValueRaw();
 			std::stringstream ss;
 			
 			if(fullOutput)
 			{
 				ret.insert(fl.size(), "RValueValue");
 				ret += ",\n" +
-					   indentStr1 + "inputType = ParsedRValueValueType::" + Lexer::getParsedRValueValueTypeString(objReal->getInputType()) + ",\n" +
 					   indentStr1 + "type = ParsedVariableType::" + Lexer::getParsedVariableTypeString(objReal->getType()) + ",\n" +
-					   indentStr1 + "value = { ";
-				for(auto it = value.begin(); it != value.end(); ++it)
-					ss << "0x" << std::setfill('0') << std::setw(2) << std::hex << ((*it)&0xFF) << (it!=value.end()-1 ? ", " : "");
-				ret += ss.str() + " }\n";
+					   indentStr1 + "value = " + toString(objReal->getValue()) + "\n";
 			}
 		}
 		else if(obj->getId() == Statement::uniqueId)

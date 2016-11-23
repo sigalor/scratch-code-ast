@@ -16,7 +16,7 @@ namespace ast
 	class UnaryOperation : public Operation
 	{
 		public:
-			static const int									uniqueId = 0x00132311;
+			static const int									uniqueId = 0x00013311;
 	
 		private:
 			Lexer::ParsedUnaryOperation							operation;

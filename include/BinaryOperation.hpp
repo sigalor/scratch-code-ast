@@ -16,7 +16,7 @@ namespace ast
 	class BinaryOperation : public Operation																		//arithmetic (+, -, *, /), logical (&&, ||), comparative (<, <=, >, >=, ==, !=), binary (&, |, ^)...
 	{
 		public:
-			static const int									uniqueId = 0x00232311;
+			static const int									uniqueId = 0x00023311;
 	
 		private:
 			std::shared_ptr<Value>								lhs;

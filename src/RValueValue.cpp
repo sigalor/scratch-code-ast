@@ -8,37 +8,59 @@ namespace ast
 	//RValueValue::RValueValue(int newId, std::shared_ptr<Node> newParent) : RValue(newId, newParent) { }
 	//RValueValue::RValueValue(int newId, std::shared_ptr<Node> newParent, bool newValue) : RValue(newId, newParent), value(newValue) { }
 
-	RValueValue::RValueValue() : RValue(uniqueId), inputType(Lexer::ParsedRValueValueType::Invalid), type(Lexer::ParsedVariableType::Invalid) { }
-	RValueValue::RValueValue(std::shared_ptr<Node> newParent) : RValue(uniqueId, newParent), inputType(Lexer::ParsedRValueValueType::Invalid), type(Lexer::ParsedVariableType::Invalid) { }
-	//RValueValue::RValueValue(std::shared_ptr<Node> newParent, bool newValue) : RValue(uniqueId, newParent), value(newValue) { }
-	
-	Lexer::ParsedRValueValueType RValueValue::getInputType()
-	{
-		return inputType;
-	}
+	RValueValue::RValueValue() : RValue(uniqueId), type(Lexer::ParsedVariableType::Invalid) { }
+	RValueValue::RValueValue(std::shared_ptr<Node> newParent) : RValue(uniqueId, newParent), type(Lexer::ParsedVariableType::Invalid) { }
+	RValueValue::RValueValue(std::shared_ptr<Node> newParent, bool newValue) : RValue(uniqueId, newParent), type(Lexer::ParsedVariableType::Bool), value(newValue) { }
+	RValueValue::RValueValue(std::shared_ptr<Node> newParent, uint64_t newValue) : RValue(uniqueId, newParent), type(Lexer::ParsedVariableType::Int), value(newValue) { }
+	RValueValue::RValueValue(std::shared_ptr<Node> newParent, double newValue) : RValue(uniqueId, newParent), type(Lexer::ParsedVariableType::Real), value(newValue) { }
+	RValueValue::RValueValue(std::shared_ptr<Node> newParent, const std::string& newValue) : RValue(uniqueId, newParent), type(Lexer::ParsedVariableType::String), value(newValue) { }
 	
 	Lexer::ParsedVariableType RValueValue::getType()
 	{
 		return type;
 	}
 	
-	const std::vector<uint8_t>& RValueValue::getValueRaw()
+	RValueValue::ValueVariantType& RValueValue::getValue()
 	{
 		return value;
 	}
 	
-	void RValueValue::setInputType(Lexer::ParsedRValueValueType newInputType)
+	const std::string RValueValue::getValueString() const
 	{
-		inputType = newInputType;
+		return toString(value);
 	}
 	
-	void RValueValue::setValue(std::string newValue)
+	void RValueValue::setValue(bool newValue)
+	{
+		type = Lexer::ParsedVariableType::Bool;
+		value = newValue;
+	}
+	
+	void RValueValue::setValue(uint64_t newValue)
+	{
+		type = Lexer::ParsedVariableType::Int;
+		value = newValue;
+	}
+	
+	void RValueValue::setValue(double newValue)
+	{
+		type = Lexer::ParsedVariableType::Real;
+		value = newValue;
+	}
+	
+	void RValueValue::setValue(const std::string& newValue)
+	{
+		type = Lexer::ParsedVariableType::String;
+		value = newValue;
+	}
+	
+	/*void RValueValue::setValue(std::string newValue)
 	{
 		if(inputType == Lexer::ParsedRValueValueType::Invalid)
 			return;
 		
 		throw RValueValueParseException("RValueValue parsing is not implemented yet");
-		/*
+		
 		using rvt = Lexer::ParsedRValueValueType;
 		using pvt = Lexer::ParsedVariableType;
 		if(inputType == rvt::Bool)
@@ -137,6 +159,6 @@ namespace ast
 		{
 			double val = strtod(newValue.c_str(), nullptr);
 			setValueRaw(&val);
-		}*/
-	}
+		}
+	}*/
 }

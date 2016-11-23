@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include <memory>
+#include <boost/variant.hpp>
 
 #include "LexerTokenDefinitions.hpp"
 #include "Node.hpp"
@@ -36,14 +37,17 @@
 namespace ast
 {
 	template<typename T>
+	std::string toString(T val)
+	{
+		std::stringstream ss;
+		ss << val;
+		return ss.str();
+	}
+	
+	template<typename T>
 	std::string pointerToString(T* addr)																			//from http://stackoverflow.com/a/7850160
 	{
-		if(addr == nullptr)
-			return "(nullptr)";
-
-		std::stringstream ss;
-		ss << addr;
-		return ss.str();
+		return ((addr == nullptr) ? "(nullptr)" : toString(addr));
 	}
 
 	std::string stringify(std::shared_ptr<Node> obj, std::size_t indent=0, bool indentFirstLine=true, bool newlineAfterLastLine=true, bool fullOutput=true);

@@ -12,9 +12,9 @@ namespace ast
 	{
 		/*
 		* PRECEDENCE (extracted from http://en.cppreference.com/w/c/language/operator_precedence):
-		*  1. ++ --				PostfixIncrement/PostfixDecrement		left-to-right
-		*  2. ++ --				PrefixIncrement/PrefixDecrement			right-to-left
-		*     + -				UnaryPlus/UnaryMinus
+		*  1. ++ --				PostfixIncrement/PostfixDecrement		left-to-right			rvalue
+		*  2. ++ --				PrefixIncrement/PrefixDecrement			right-to-left			lvalue
+		*     + -				UnaryPlus/UnaryMinus											all following rvalue
 		*     ! ~				LogicalNot/BitwiseNot
 		*     (type)			Typecast
 		*     sizeof			Sizeof
@@ -29,7 +29,7 @@ namespace ast
 		* 10. |					BitwiseOr
 		* 11. &&				LogicalAnd
 		* 12. ||				LogicalOr
-		* 13. =					Assignment								right-to-left
+		* 13. =					Assignment								right-to-left			all following lvalue
 		*     += -=				AddAssignment/SubtractAssignment
 		*     *= /= %=			MultiplyAssignment/DivideAssignment/ModuloAssignment
 		*     <<= >>=			BitshiftLeftAssignment/BitshiftRightAssignment
@@ -59,9 +59,7 @@ namespace ast
 			CurlyBracketOpen,
 			CurlyBracketClosed,
 			Comma,
-			Semicolon,
-			ParserLexerTokenDummy
-			//ParserValueDummy
+			Semicolon
 		};
 		
 		using UnderlyingTokenType = std::underlying_type<TokenType>::type;
@@ -139,30 +137,6 @@ namespace ast
 			NotEqual
 		};
 		
-		enum class ParsedRValueValueType : UnderlyingTokenType
-		{
-			Invalid = -1,
-			Bool,
-			Char,
-			EscapeSequence,
-			OctalEscapeSequence,
-			HexadecimalEscapeSequence,
-			ShortBinary,
-			ShortOctal,
-			ShortDecimal,
-			ShortHexadecimal,
-			IntBinary,
-			IntOctal,
-			IntDecimal,
-			IntHexadecimal,
-			LongBinary,
-			LongOctal,
-			LongDecimal,
-			LongHexadecimal,
-			Float,
-			Double
-		};
-		
 		enum class ParsedLoopControlStatement : UnderlyingTokenType
 		{
 			Invalid = -1,
@@ -182,7 +156,6 @@ namespace ast
 		const std::string										getParsedPositionDependentUnaryOperationString(ParsedPositionDependentUnaryOperation ppduOperation);
 		const std::string										getParsedUnaryOrBinaryOperationString(ParsedUnaryOrBinaryOperation puobOperation);
 		const std::string										getParsedBinaryOperationString(ParsedBinaryOperation pbOperation);
-		const std::string										getParsedRValueValueTypeString(ParsedRValueValueType prvvType);
 		const std::string										getParsedLoopControlStatementString(ParsedLoopControlStatement plcStatement);
 	}
 }

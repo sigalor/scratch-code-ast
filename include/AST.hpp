@@ -13,9 +13,9 @@ namespace ast
 				class RValue;							//0x00002311
 					class RValueValue;					//0x00012311
 					class FunctionCall;					//0x00022311
-					class Operation;					//0x00032311
-						class UnaryOperation;			//0x00132311
-						class BinaryOperation;			//0x00232311
+				class Operation;						//0x00003311
+					class UnaryOperation;				//0x00013311
+					class BinaryOperation;				//0x00023311
 			class ControlFlowStatement;					//0x00000411
 				class Conditional;						//0x00001411
 				class ControllableLoop;					//0x00002411

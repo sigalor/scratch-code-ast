@@ -32,8 +32,6 @@ namespace ast
 				case TokenType::CurlyBracketClosed						: return "CurlyBracketClosed";
 				case TokenType::Comma									: return "Comma";
 				case TokenType::Semicolon								: return "Semicolon";
-				case TokenType::ParserLexerTokenDummy					: return "ParserLexerTokenDummy";
-				//case TokenType::ParserValueDummy						: return "ParserValueDummy";
 				default													: return "Unknown";
 			}
 		}
@@ -127,34 +125,6 @@ namespace ast
 				case ParsedBinaryOperation::GreaterThanOrEqual			: return "GreaterThanOrEqual";
 				case ParsedBinaryOperation::Equal						: return "Equal";
 				case ParsedBinaryOperation::NotEqual					: return "NotEqual";
-				default													: return "Unknown";
-			}
-		}
-		
-		const std::string getParsedRValueValueTypeString(ParsedRValueValueType prvvType)
-		{
-			switch(prvvType)
-			{
-				case ParsedRValueValueType::Invalid						: return "Invalid";
-				case ParsedRValueValueType::Bool						: return "Bool";
-				case ParsedRValueValueType::Char						: return "Char";
-				case ParsedRValueValueType::EscapeSequence				: return "EscapeSequence";
-				case ParsedRValueValueType::OctalEscapeSequence			: return "OctalEscapeSequence";
-				case ParsedRValueValueType::HexadecimalEscapeSequence	: return "HexadecimalEscapeSequence"; 
-				case ParsedRValueValueType::ShortBinary					: return "ShortBinary";
-				case ParsedRValueValueType::ShortOctal					: return "ShortOctal";
-				case ParsedRValueValueType::ShortDecimal				: return "ShortDecimal";
-				case ParsedRValueValueType::ShortHexadecimal			: return "ShortHexadecimal";
-				case ParsedRValueValueType::IntBinary					: return "IntBinary";
-				case ParsedRValueValueType::IntOctal					: return "IntOctal";
-				case ParsedRValueValueType::IntDecimal					: return "IntDecimal";
-				case ParsedRValueValueType::IntHexadecimal				: return "IntHexadecimal";
-				case ParsedRValueValueType::LongBinary					: return "LongBinary";
-				case ParsedRValueValueType::LongOctal					: return "LongOctal";
-				case ParsedRValueValueType::LongDecimal					: return "LongDecimal";
-				case ParsedRValueValueType::LongHexadecimal				: return "LongHexadecimal";
-				case ParsedRValueValueType::Float						: return "Float";
-				case ParsedRValueValueType::Double						: return "Double";
 				default													: return "Unknown";
 			}
 		}

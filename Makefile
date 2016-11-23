@@ -1,6 +1,7 @@
 # build structure paths
 PROJECT_NAME=scratch-code-ast
 PROJECT_DEP_DIR=dep
+PROJECT_EXT_DIR=ext
 PROJECT_INCLUDE_DIR=include
 PROJECT_LIB_DIR=lib
 PROJECT_OBJ_DIR=obj
@@ -13,7 +14,7 @@ DEP_FILES=$(addprefix $(PROJECT_DEP_DIR)/,$(notdir $(CPP_FILES:.cpp=.d)))
 FINAL_LIBRARY=$(PROJECT_LIB_DIR)/lib$(PROJECT_NAME).a
 
 # include paths
-INCLUDE_PATHS=-I$(PROJECT_INCLUDE_DIR)
+INCLUDE_PATHS=-I$(PROJECT_INCLUDE_DIR) -I$(PROJECT_EXT_DIR)/boost
 
 # names and options for used programs
 CXX=g++

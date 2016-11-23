@@ -12,10 +12,10 @@
 
 namespace ast
 {
-	class Operation : public RValue
+	class Operation : public Value
 	{
 		public:
-			static const int									uniqueId = 0x00032311;
+			static const int									uniqueId = 0x00003311;
 	
 		private:
 		

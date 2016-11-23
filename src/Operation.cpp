@@ -4,9 +4,9 @@
 
 namespace ast
 {
-	Operation::Operation(int newId) : RValue(newId) { }
-	Operation::Operation(int newId, std::shared_ptr<Node> newParent) : RValue(newId, newParent) { }
+	Operation::Operation(int newId) : Value(newId) { }
+	Operation::Operation(int newId, std::shared_ptr<Node> newParent) : Value(newId, newParent) { }
 
-	Operation::Operation() : RValue(uniqueId) { }
-	Operation::Operation(std::shared_ptr<Node> newParent) : RValue(uniqueId, newParent) { }
+	Operation::Operation() : Value(uniqueId) { }
+	Operation::Operation(std::shared_ptr<Node> newParent) : Value(uniqueId, newParent) { }
 }
