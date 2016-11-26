@@ -27,6 +27,21 @@ namespace ast
 		return rhs;
 	}
 	
+	Lexer::ValueCategory BinaryOperation::getRequiredLhsValueCategory()
+	{
+		return Lexer::getRequiredLhsValueCategory(operation);
+	}
+	
+	Lexer::ValueCategory BinaryOperation::getRequiredRhsValueCategory()
+	{
+		return Lexer::getRequiredRhsValueCategory(operation);
+	}
+	
+	Lexer::ValueCategory BinaryOperation::getResultingValueCategory()
+	{
+		return Lexer::getResultingValueCategory(operation);
+	}
+	
 	void BinaryOperation::setLhs(std::shared_ptr<Value> newLhs)
 	{
 		lhs = newLhs;

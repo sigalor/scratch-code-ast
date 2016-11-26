@@ -2,8 +2,11 @@
 
 
 
+#include <iostream>
+#include <iomanip>
 #include <memory>
 
+#include "LexerTokenDefinitions.hpp"
 #include "Node.hpp"
 #include "Statement.hpp"
 
@@ -25,5 +28,6 @@ namespace ast
 		public:
 			Value();
 			Value(std::shared_ptr<Node> newParent);
+			virtual Lexer::ValueCategory						getValueCategory() { return Lexer::ValueCategory::Invalid; }
 	};
 }

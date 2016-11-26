@@ -35,6 +35,10 @@ namespace ast
 			std::shared_ptr<Value>								getLhs();
 			Lexer::ParsedBinaryOperation						getOperation();
 			std::shared_ptr<Value>								getRhs();
+			virtual Lexer::ValueCategory						getValueCategory() { return getResultingValueCategory(); }
+			Lexer::ValueCategory								getRequiredLhsValueCategory();
+			Lexer::ValueCategory								getRequiredRhsValueCategory();
+			Lexer::ValueCategory								getResultingValueCategory();
 			void												setLhs(std::shared_ptr<Value> newLhs);
 			void												setOperation(Lexer::ParsedBinaryOperation newOperation);
 			void												setRhs(std::shared_ptr<Value> newRhs);

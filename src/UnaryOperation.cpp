@@ -22,6 +22,16 @@ namespace ast
 		return value;
 	}
 	
+	Lexer::ValueCategory UnaryOperation::getRequiredValueCategory()
+	{
+		return Lexer::getRequiredValueCategory(operation);
+	}
+	
+	Lexer::ValueCategory UnaryOperation::getResultingValueCategory()
+	{
+		return Lexer::getResultingValueCategory(operation);
+	}
+	
 	void UnaryOperation::setOperation(Lexer::ParsedUnaryOperation newOperation)
 	{
 		operation = newOperation;

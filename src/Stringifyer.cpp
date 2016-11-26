@@ -181,7 +181,7 @@ namespace ast
 			if(fullOutput)
 				ret += ",\n" +
 					   indentStr1 + "operation = ParsedUnaryOperation::" + Lexer::getParsedUnaryOperationString(objReal->getOperation()) + ",\n" +
-					   indentStr1 + "value = " + stringify(objReal->getValue(), false, true);
+					   indentStr1 + "value = " + stringify(objReal->getValue(), indent+1, false, true);
 		}
 		else if(obj->getId() == Value::uniqueId)
 		{

@@ -6,36 +6,6 @@ namespace ast
 {
 	namespace Lexer
 	{
-		const std::string getTokenTypeString(TokenType tType)
-		{
-			switch(tType)
-			{
-				case TokenType::Invalid									: return "Invalid";
-				case TokenType::Identifier								: return "Identifier";
-				case TokenType::ParsedVariableType						: return "ParsedVariableType";
-				case TokenType::ParsedUnaryOperation					: return "ParsedUnaryOperation";
-				case TokenType::ParsedPositionDependentUnaryOperation	: return "ParsedPositionDependentUnaryOperation";
-				case TokenType::ParsedUnaryOrBinaryOperation			: return "ParsedUnaryOrBinaryOperation";
-				case TokenType::ParsedBinaryOperation					: return "ParsedBinaryOperation";
-				case TokenType::ParsedRValueValueType					: return "ParsedRValueValueType";
-				case TokenType::ParsedLoopControlStatement				: return "ParsedLoopControlStatement";
-				case TokenType::If										: return "If";
-				case TokenType::Else									: return "Else";
-				case TokenType::While									: return "While";
-				case TokenType::For										: return "For";
-				case TokenType::Return									: return "Return";
-				case TokenType::RoundBracketOpen						: return "RoundBracketOpen";
-				case TokenType::RoundBracketClosed						: return "RoundBracketClosed";
-				case TokenType::SquareBracketOpen						: return "SquareBracketOpen";
-				case TokenType::SquareBracketClosed						: return "SquareBracketClosed";
-				case TokenType::CurlyBracketOpen						: return "CurlyBracketOpen";
-				case TokenType::CurlyBracketClosed						: return "CurlyBracketClosed";
-				case TokenType::Comma									: return "Comma";
-				case TokenType::Semicolon								: return "Semicolon";
-				default													: return "Unknown";
-			}
-		}
-		
 		const std::string getParsedVariableTypeString(ParsedVariableType pvType)
 		{
 			switch(pvType)
@@ -65,28 +35,6 @@ namespace ast
 				case ParsedUnaryOperation::UnaryMinus					: return "UnaryMinus";
 				case ParsedUnaryOperation::Typecast						: return "Typecast";
 				case ParsedUnaryOperation::Sizeof						: return "Sizeof";
-				default													: return "Unknown";
-			}
-		}
-		
-		const std::string getParsedPositionDependentUnaryOperationString(ParsedPositionDependentUnaryOperation ppduOperation)
-		{
-			switch(ppduOperation)
-			{
-				case ParsedPositionDependentUnaryOperation::Invalid		: return "Invalid";
-				case ParsedPositionDependentUnaryOperation::Increment	: return "Increment";
-				case ParsedPositionDependentUnaryOperation::Decrement	: return "Decrement";
-				default													: return "Unknown";
-			}
-		}
-		
-		const std::string getParsedUnaryOrBinaryOperationString(ParsedUnaryOrBinaryOperation puobOperation)
-		{
-			switch(puobOperation)
-			{
-				case ParsedUnaryOrBinaryOperation::Invalid				: return "Invalid";
-				case ParsedUnaryOrBinaryOperation::Plus					: return "Plus";
-				case ParsedUnaryOrBinaryOperation::Minus				: return "Minus";
 				default													: return "Unknown";
 			}
 		}
@@ -133,9 +81,192 @@ namespace ast
 		{
 			switch(plcStatement)
 			{
+				case ParsedLoopControlStatement::Invalid				: return "Invalid";
 				case ParsedLoopControlStatement::Break					: return "Break";
 				case ParsedLoopControlStatement::Continue				: return "Continue";
 				default													: return "Unknown";
+			}
+		}
+		
+		const std::string getValueCategoryString(ValueCategory valueCategory)
+		{
+			switch(valueCategory)
+			{
+				case ValueCategory::Invalid								: return "Invalid";
+				case ValueCategory::LValue								: return "LValue";
+				case ValueCategory::RValue								: return "RValue";
+				case ValueCategory::Any									: return "Any";
+				default													: return "Unknown";
+			}
+		}
+		
+		ValueCategory getRequiredValueCategory(ParsedUnaryOperation puOperation)
+		{
+			switch(puOperation)
+			{
+				case ParsedUnaryOperation::PrefixIncrement:
+				case ParsedUnaryOperation::PrefixDecrement:
+				case ParsedUnaryOperation::PostfixIncrement:
+				case ParsedUnaryOperation::PostfixDecrement:
+					return ValueCategory::LValue;
+			
+				case ParsedUnaryOperation::LogicalNot:
+				case ParsedUnaryOperation::BitwiseNot:
+				case ParsedUnaryOperation::UnaryPlus:
+				case ParsedUnaryOperation::UnaryMinus:
+				case ParsedUnaryOperation::Typecast:
+				case ParsedUnaryOperation::Sizeof:
+					return ValueCategory::Any;
+			
+				default:
+					return ValueCategory::Invalid;
+			}
+		}
+		
+		ValueCategory getResultingValueCategory(ParsedUnaryOperation puOperation)
+		{
+			switch(puOperation)
+			{
+				case ParsedUnaryOperation::PrefixIncrement:
+				case ParsedUnaryOperation::PrefixDecrement:
+					return ValueCategory::LValue;
+			
+				case ParsedUnaryOperation::LogicalNot:
+				case ParsedUnaryOperation::BitwiseNot:
+				case ParsedUnaryOperation::PostfixIncrement:
+				case ParsedUnaryOperation::PostfixDecrement:
+				case ParsedUnaryOperation::UnaryPlus:
+				case ParsedUnaryOperation::UnaryMinus:
+				case ParsedUnaryOperation::Typecast:
+				case ParsedUnaryOperation::Sizeof:
+					return ValueCategory::RValue;
+			
+				default:
+					return ValueCategory::Invalid;
+			}
+		}
+		
+		ValueCategory getRequiredLhsValueCategory(ParsedBinaryOperation pbOperation)
+		{
+			switch(pbOperation)
+			{
+				case ParsedBinaryOperation::Add:
+				case ParsedBinaryOperation::Subtract:
+				case ParsedBinaryOperation::Multiply:
+				case ParsedBinaryOperation::Divide:
+				case ParsedBinaryOperation::Modulo:
+				case ParsedBinaryOperation::BitwiseAnd:
+				case ParsedBinaryOperation::BitwiseOr:
+				case ParsedBinaryOperation::BitwiseXor:
+				case ParsedBinaryOperation::BitshiftLeft:
+				case ParsedBinaryOperation::BitshiftRight:
+				case ParsedBinaryOperation::LogicalAnd:
+				case ParsedBinaryOperation::LogicalOr:
+				case ParsedBinaryOperation::LessThan:
+				case ParsedBinaryOperation::LessThanOrEqual:
+				case ParsedBinaryOperation::GreaterThan:
+				case ParsedBinaryOperation::GreaterThanOrEqual:
+				case ParsedBinaryOperation::Equal:
+				case ParsedBinaryOperation::NotEqual:
+					return ValueCategory::Any;
+				
+				case ParsedBinaryOperation::Assignment:
+				case ParsedBinaryOperation::AddAssignment:
+				case ParsedBinaryOperation::SubtractAssignment:
+				case ParsedBinaryOperation::MultiplyAssignment:
+				case ParsedBinaryOperation::DivideAssignment:
+				case ParsedBinaryOperation::ModuloAssignment:
+				case ParsedBinaryOperation::BitwiseAndAssignment:
+				case ParsedBinaryOperation::BitwiseOrAssignment:
+				case ParsedBinaryOperation::BitwiseXorAssignment:
+				case ParsedBinaryOperation::BitshiftLeftAssignment:
+				case ParsedBinaryOperation::BitshiftRightAssignment:
+					return ValueCategory::LValue;
+				
+				default:
+					return ValueCategory::Invalid;
+			}
+		}
+		
+		ValueCategory getRequiredRhsValueCategory(ParsedBinaryOperation pbOperation)
+		{
+			switch(pbOperation)
+			{
+				case ParsedBinaryOperation::Add:
+				case ParsedBinaryOperation::Subtract:
+				case ParsedBinaryOperation::Multiply:
+				case ParsedBinaryOperation::Divide:
+				case ParsedBinaryOperation::Modulo:
+				case ParsedBinaryOperation::BitwiseAnd:
+				case ParsedBinaryOperation::BitwiseOr:
+				case ParsedBinaryOperation::BitwiseXor:
+				case ParsedBinaryOperation::BitshiftLeft:
+				case ParsedBinaryOperation::BitshiftRight:
+				case ParsedBinaryOperation::LogicalAnd:
+				case ParsedBinaryOperation::LogicalOr:
+				case ParsedBinaryOperation::LessThan:
+				case ParsedBinaryOperation::LessThanOrEqual:
+				case ParsedBinaryOperation::GreaterThan:
+				case ParsedBinaryOperation::GreaterThanOrEqual:
+				case ParsedBinaryOperation::Equal:
+				case ParsedBinaryOperation::NotEqual:
+				case ParsedBinaryOperation::Assignment:
+				case ParsedBinaryOperation::AddAssignment:
+				case ParsedBinaryOperation::SubtractAssignment:
+				case ParsedBinaryOperation::MultiplyAssignment:
+				case ParsedBinaryOperation::DivideAssignment:
+				case ParsedBinaryOperation::ModuloAssignment:
+				case ParsedBinaryOperation::BitwiseAndAssignment:
+				case ParsedBinaryOperation::BitwiseOrAssignment:
+				case ParsedBinaryOperation::BitwiseXorAssignment:
+				case ParsedBinaryOperation::BitshiftLeftAssignment:
+				case ParsedBinaryOperation::BitshiftRightAssignment:
+					return ValueCategory::Any;
+				
+				default:
+					return ValueCategory::Invalid;
+			}
+		}
+		
+		ValueCategory getResultingValueCategory(ParsedBinaryOperation pbOperation)
+		{
+			switch(pbOperation)
+			{
+				case ParsedBinaryOperation::Add:
+				case ParsedBinaryOperation::Subtract:
+				case ParsedBinaryOperation::Multiply:
+				case ParsedBinaryOperation::Divide:
+				case ParsedBinaryOperation::Modulo:
+				case ParsedBinaryOperation::BitwiseAnd:
+				case ParsedBinaryOperation::BitwiseOr:
+				case ParsedBinaryOperation::BitwiseXor:
+				case ParsedBinaryOperation::BitshiftLeft:
+				case ParsedBinaryOperation::BitshiftRight:
+				case ParsedBinaryOperation::LogicalAnd:
+				case ParsedBinaryOperation::LogicalOr:
+				case ParsedBinaryOperation::LessThan:
+				case ParsedBinaryOperation::LessThanOrEqual:
+				case ParsedBinaryOperation::GreaterThan:
+				case ParsedBinaryOperation::GreaterThanOrEqual:
+				case ParsedBinaryOperation::Equal:
+				case ParsedBinaryOperation::NotEqual:
+					return ValueCategory::RValue;
+				
+				case ParsedBinaryOperation::Assignment:
+				case ParsedBinaryOperation::AddAssignment:
+				case ParsedBinaryOperation::SubtractAssignment:
+				case ParsedBinaryOperation::MultiplyAssignment:
+				case ParsedBinaryOperation::DivideAssignment:
+				case ParsedBinaryOperation::ModuloAssignment:
+				case ParsedBinaryOperation::BitwiseAndAssignment:
+				case ParsedBinaryOperation::BitwiseOrAssignment:
+				case ParsedBinaryOperation::BitwiseXorAssignment:
+				case ParsedBinaryOperation::BitshiftLeftAssignment:
+				case ParsedBinaryOperation::BitshiftRightAssignment:
+					return ValueCategory::LValue;
+				
+				default:
+					return ValueCategory::Invalid;
 			}
 		}
 	}

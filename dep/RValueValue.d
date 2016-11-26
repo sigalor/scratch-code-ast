@@ -357,8 +357,8 @@ obj/RValueValue.o: src/RValueValue.cpp include/RValueValue.hpp \
  ext/boost/boost/type_traits/add_pointer.hpp \
  ext/boost/boost/variant/visitor_ptr.hpp \
  ext/boost/boost/variant/bad_visit.hpp include/Node.hpp \
- include/RValue.hpp include/Value.hpp include/Statement.hpp \
- include/LexerTokenDefinitions.hpp include/RValueValueParseException.hpp \
+ include/RValue.hpp include/Value.hpp include/LexerTokenDefinitions.hpp \
+ include/Statement.hpp include/RValueValueParseException.hpp \
  include/Stringifyer.hpp include/VariableDefinition.hpp \
  include/FunctionDefinition.hpp include/StatementList.hpp \
  include/VariableDefinitionList.hpp include/LValue.hpp \
@@ -1216,9 +1216,9 @@ include/RValue.hpp:
 
 include/Value.hpp:
 
-include/Statement.hpp:
-
 include/LexerTokenDefinitions.hpp:
+
+include/Statement.hpp:
 
 include/RValueValueParseException.hpp:
 

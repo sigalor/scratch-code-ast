@@ -25,5 +25,6 @@ namespace ast
 		public:
 			RValue();
 			RValue(std::shared_ptr<Node> newParent);
+			virtual Lexer::ValueCategory						getValueCategory() { return Lexer::ValueCategory::RValue; }
 	};
 }

@@ -4,6 +4,7 @@
 
 #include <memory>
 
+#include "LexerTokenDefinitions.hpp"
 #include "Node.hpp"
 #include "VariableDefinition.hpp"
 #include "Value.hpp"
@@ -30,6 +31,7 @@ namespace ast
 			LValue(std::shared_ptr<Node> newParent);
 			LValue(std::shared_ptr<Node> newParent, std::shared_ptr<VariableDefinition> newAssocVarDef);
 			std::shared_ptr<VariableDefinition>					getAssocVarDef();
+			virtual Lexer::ValueCategory						getValueCategory() { return Lexer::ValueCategory::LValue; }
 			void												setAssocVarDef(std::shared_ptr<VariableDefinition> newAssocVarDef);
 	};
 }

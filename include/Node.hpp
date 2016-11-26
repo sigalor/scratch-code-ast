@@ -33,6 +33,20 @@ namespace ast
 			void												setParent(std::shared_ptr<Node> newParent);
 			std::shared_ptr<Node>								searchParents(std::function<bool(std::shared_ptr<Node>)> condition, std::size_t* steps);
 			
+			//checks if the current instance has the given id
+			bool isA(int idInQuestion)
+			{
+				return (getId() == idInQuestion);
+			}
+			
+			//like 'isA', but more comfortable because of template argument
+			template<typename T>
+			typename std::enable_if<std::is_base_of<Node, T>::value, bool>::type
+			isA()
+			{
+				return isA(T::uniqueId);
+			}
+			
 			//checks wheather 'parent' is one of the parents (i.e. not only direct parent, but also grandparent, grand-grandparent etc.) of 'subject'
 			template<typename T>
 			std::shared_ptr<T> hasParent(std::shared_ptr<Node> parentInQuestion, std::size_t* steps=nullptr)
@@ -54,10 +68,10 @@ namespace ast
 				return std::static_pointer_cast<T>(searchParents([&](std::shared_ptr<Node> subject) -> bool { return (subject->getId() == idInQuestion); }, steps));
 			}
 			
-			//shortcut for hasParentWithId, because   hasParentWithUniqueId<T>()   is the same like   hasParentWithId<T>(T::uniqueId)
+			//shortcut for hasParentWithId, because   hasParentWithId<T>()   is the same like   hasParentWithId<T>(T::uniqueId)
 			template<typename T>
 			typename std::enable_if<std::is_base_of<Node, T>::value, std::shared_ptr<T>>::type						//from http://stackoverflow.com/a/5108738
-			hasParentWithUniqueId(std::size_t* steps=nullptr)
+			hasParentWithId(std::size_t* steps=nullptr)
 			{
 				return hasParentWithId<T>(T::uniqueId, steps);
 			}
@@ -67,7 +81,7 @@ namespace ast
 			std::shared_ptr<T> hasParentWithIdBase(int idBaseInQuestion, std::size_t* steps=nullptr)
 			{
 				int idBaseOrig = idBaseInQuestion, idBaseMask = 0;
-				while(idBaseOrig > 0)																				//I designed the different class IDs so that the less significant nibbles are the same across derived instances and become numbered, e.g. Node::uniqueId=0x00000001 --> Statement::uniqueId=0x00000011 and StatementList::uniqueId=0x00000021 and VariableDefinitionList::uniqueId=0x00000031 etc.   or   Operation::uniqueId=0x00032311 --> UnaryOperation::uniqueId=0x00132311 and BinaryOperation::uniqueId=0x00232311
+				while(idBaseOrig > 0)																				//I designed the different class IDs so that the less significant nibbles are the same across derived instances and become numbered, e.g. Node::uniqueId=0x00000001 --> Statement::uniqueId=0x00000011 and StatementList::uniqueId=0x00000021 and VariableDefinitionList::uniqueId=0x00000031 etc.   or   Operation::uniqueId=0x00003311 --> UnaryOperation::uniqueId=0x00013311 and BinaryOperation::uniqueId=0x00023311
 				{																									//that's why just the "base size" of 'idBaseInQuestion' has to be calculated (as a bitmask) to check later instances (see lambda below)
 					idBaseMask = (idBaseMask << 4) | 0xF;
 					idBaseOrig >>= 4;
@@ -78,7 +92,7 @@ namespace ast
 			//shortcut for hasParentWithIdBase, like above with hasParentWithUniqueId
 			template<typename T>
 			typename std::enable_if<std::is_base_of<Node, T>::value, std::shared_ptr<T>>::type
-			hasParentWithUniqueIdBase(std::size_t* steps=nullptr)
+			hasParentWithIdBase(std::size_t* steps=nullptr)
 			{
 				return hasParentWithIdBase<T>(T::uniqueId, steps);
 			}

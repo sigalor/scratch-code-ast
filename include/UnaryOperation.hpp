@@ -33,6 +33,9 @@ namespace ast
 			UnaryOperation(std::shared_ptr<Node> newParent, Lexer::ParsedUnaryOperation newOperation, std::shared_ptr<Value> newValue);
 			Lexer::ParsedUnaryOperation							getOperation();
 			std::shared_ptr<Value>								getValue();
+			virtual Lexer::ValueCategory						getValueCategory() { return getResultingValueCategory(); }
+			Lexer::ValueCategory								getRequiredValueCategory();
+			Lexer::ValueCategory								getResultingValueCategory();
 			void												setOperation(Lexer::ParsedUnaryOperation newOperation);
 			void												setValue(std::shared_ptr<Value> newValue);
 	};
