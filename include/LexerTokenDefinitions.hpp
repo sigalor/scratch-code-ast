@@ -59,8 +59,10 @@ namespace ast
 			PostfixDecrement,
 			UnaryPlus,
 			UnaryMinus,
-			Typecast,
-			Sizeof
+			TypecastBool,
+			TypecastInt,
+			TypecastReal,
+			TypecastString
 		};
 
 		enum class ParsedBinaryOperation : UnderlyingTokenType
@@ -118,11 +120,19 @@ namespace ast
 		
 		
 		
-		const std::string										getParsedVariableTypeString(ParsedVariableType pvType);
-		const std::string										getParsedUnaryOperationString(ParsedUnaryOperation puOperation);
-		const std::string										getParsedBinaryOperationString(ParsedBinaryOperation pbOperation);
-		const std::string										getParsedLoopControlStatementString(ParsedLoopControlStatement plcStatement);
-		const std::string										getValueCategoryString(ValueCategory valueCategory);
+		const std::string										getStringVerbose(ParsedVariableType pvType);
+		const std::string										getStringVerbose(ParsedUnaryOperation puOperation);
+		const std::string										getStringVerbose(ParsedBinaryOperation pbOperation);
+		const std::string										getStringVerbose(ParsedLoopControlStatement plcStatement);
+		const std::string										getStringVerbose(ValueCategory valueCategory);
+		const std::string										getString(ParsedVariableType pvType);
+		const std::string										getString(ParsedUnaryOperation puOperation);
+		const std::string										getString(ParsedBinaryOperation pbOperation);
+		const std::string										getString(ParsedLoopControlStatement plcStatement);
+		const std::string										getString(ValueCategory valueCategory);
+		
+		bool													isTypeAllowed(ParsedUnaryOperation puOperation, ParsedVariableType pvType);
+		bool													isTypeAllowed(ParsedBinaryOperation pbOperation, ParsedVariableType pvType);
 		
 		ValueCategory											getRequiredValueCategory(ParsedUnaryOperation puOperation);
 		ValueCategory											getResultingValueCategory(ParsedUnaryOperation puOperation);

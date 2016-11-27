@@ -4,6 +4,8 @@
 
 namespace ast
 {
+	const int StatementList::uniqueId = 0x00000021;
+
 	StatementList::StatementList(int newId) : Node(newId) { }
 	StatementList::StatementList(int newId, std::shared_ptr<Node> newParent) : Node(newId, newParent) { }
 	StatementList::StatementList(int newId, std::shared_ptr<Node> newParent, const std::vector<std::shared_ptr<Statement>>& newStatements) : Node(newId, newParent), statements(newStatements) { }

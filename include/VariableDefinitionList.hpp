@@ -15,7 +15,7 @@ namespace ast
 	class VariableDefinitionList : public Node																	//needed from FunctionDefinition
 	{
 		public:
-			static const int									uniqueId = 0x00000031;
+			static const int									uniqueId;
 	
 		private:
 			std::vector<std::shared_ptr<VariableDefinition>>	varDefs;

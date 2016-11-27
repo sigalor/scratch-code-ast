@@ -4,9 +4,11 @@
 
 namespace ast
 {
-	//RValueValue::RValueValue(int newId) : RValue(newId) { }
-	//RValueValue::RValueValue(int newId, std::shared_ptr<Node> newParent) : RValue(newId, newParent) { }
-	//RValueValue::RValueValue(int newId, std::shared_ptr<Node> newParent, bool newValue) : RValue(newId, newParent), value(newValue) { }
+	const int RValueValue::uniqueId = 0x00012311;
+
+	RValueValue::RValueValue(int newId) : RValue(newId) { }
+	RValueValue::RValueValue(int newId, std::shared_ptr<Node> newParent) : RValue(newId, newParent) { }
+	RValueValue::RValueValue(int newId, std::shared_ptr<Node> newParent, bool newValue) : RValue(newId, newParent), value(newValue) { }
 
 	RValueValue::RValueValue() : RValue(uniqueId), type(Lexer::ParsedVariableType::Invalid) { }
 	RValueValue::RValueValue(std::shared_ptr<Node> newParent) : RValue(uniqueId, newParent), type(Lexer::ParsedVariableType::Invalid) { }

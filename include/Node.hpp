@@ -14,7 +14,7 @@ namespace ast
 	class Node
 	{
 		public:
-			static const int									uniqueId = 0x00000001;
+			static const int									uniqueId;
 	
 		private:
 			int													id;
@@ -41,7 +41,7 @@ namespace ast
 			
 			//like 'isA', but more comfortable because of template argument
 			template<typename T>
-			typename std::enable_if<std::is_base_of<Node, T>::value, bool>::type
+			typename std::enable_if_t<std::is_base_of<Node, T>::value, bool>										//use std::is_base_of_v for C++17
 			isA()
 			{
 				return isA(T::uniqueId);
@@ -70,7 +70,7 @@ namespace ast
 			
 			//shortcut for hasParentWithId, because   hasParentWithId<T>()   is the same like   hasParentWithId<T>(T::uniqueId)
 			template<typename T>
-			typename std::enable_if<std::is_base_of<Node, T>::value, std::shared_ptr<T>>::type						//from http://stackoverflow.com/a/5108738
+			typename std::enable_if_t<std::is_base_of<Node, T>::value, std::shared_ptr<T>>							//from http://stackoverflow.com/a/5108738
 			hasParentWithId(std::size_t* steps=nullptr)
 			{
 				return hasParentWithId<T>(T::uniqueId, steps);
@@ -91,7 +91,7 @@ namespace ast
 			
 			//shortcut for hasParentWithIdBase, like above with hasParentWithUniqueId
 			template<typename T>
-			typename std::enable_if<std::is_base_of<Node, T>::value, std::shared_ptr<T>>::type
+			typename std::enable_if_t<std::is_base_of<Node, T>::value, std::shared_ptr<T>>
 			hasParentWithIdBase(std::size_t* steps=nullptr)
 			{
 				return hasParentWithIdBase<T>(T::uniqueId, steps);

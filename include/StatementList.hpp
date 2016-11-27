@@ -15,7 +15,7 @@ namespace ast
 	class StatementList : public Node
 	{
 		public:
-			static const int									uniqueId = 0x00000021;
+			static const int									uniqueId;
 	
 		private:
 			std::vector<std::shared_ptr<Statement>>				statements;

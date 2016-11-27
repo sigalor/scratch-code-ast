@@ -14,7 +14,7 @@ namespace ast
 	class ControllableLoop : public ControlFlowStatement															//a ControllableLoop lets itself control by a LoopControlStatement
 	{
 		public:
-			static const int									uniqueId = 0x00002411;
+			static const int									uniqueId;
 		
 		private:
 		

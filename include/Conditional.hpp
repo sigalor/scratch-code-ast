@@ -17,7 +17,7 @@ namespace ast
 	class Conditional : public ControlFlowStatement
 	{
 		public:
-			static const int									uniqueId = 0x00001411;
+			static const int									uniqueId;
 	
 		private:
 			std::vector<std::shared_ptr<Value>>					conditions;

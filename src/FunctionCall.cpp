@@ -4,6 +4,8 @@
 
 namespace ast
 {
+	const int FunctionCall::uniqueId = 0x00022311;
+
 	FunctionCall::FunctionCall(int newId) : RValue(newId) { }
 	FunctionCall::FunctionCall(int newId, std::shared_ptr<Node> newParent) : RValue(newId, newParent) { }
 	FunctionCall::FunctionCall(int newId, std::shared_ptr<Node> newParent, std::shared_ptr<FunctionDefinition> newAssocFunc, std::shared_ptr<ValueList> newArgs) : RValue(newId, newParent), assocFunc(newAssocFunc), args(newArgs) { }

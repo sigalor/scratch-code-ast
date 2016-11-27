@@ -18,7 +18,7 @@ namespace ast
 	class FunctionDefinition : public Statement
 	{
 		public:
-			static const int									uniqueId = 0x00000211;
+			static const int									uniqueId;
 	
 		private:
 			Lexer::ParsedVariableType							returnType;

@@ -14,7 +14,7 @@ namespace ast
 	class RValue : public Value
 	{
 		public:
-			static const int									uniqueId = 0x00002311;
+			static const int									uniqueId;
 	
 		private:
 		

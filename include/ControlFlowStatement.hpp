@@ -14,7 +14,7 @@ namespace ast
 	class ControlFlowStatement : public Statement
 	{
 		public:
-			static const int									uniqueId = 0x00000411;
+			static const int									uniqueId;
 		
 		private:
 		

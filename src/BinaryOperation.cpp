@@ -4,6 +4,8 @@
 
 namespace ast
 {
+	const int BinaryOperation::uniqueId = 0x00023311;
+
 	BinaryOperation::BinaryOperation(int newId) : Operation(newId), operation(Lexer::ParsedBinaryOperation::Invalid) { }
 	BinaryOperation::BinaryOperation(int newId, std::shared_ptr<Node> newParent) : Operation(newId, newParent), operation(Lexer::ParsedBinaryOperation::Invalid) { }
 	BinaryOperation::BinaryOperation(int newId, std::shared_ptr<Node> newParent, std::shared_ptr<Value> newLhs, Lexer::ParsedBinaryOperation newOperation, std::shared_ptr<Value> newRhs) : Operation(newId, newParent), lhs(newLhs), operation(newOperation), rhs(newRhs) { }

@@ -358,15 +358,15 @@ obj/RValueValue.o: src/RValueValue.cpp include/RValueValue.hpp \
  ext/boost/boost/variant/visitor_ptr.hpp \
  ext/boost/boost/variant/bad_visit.hpp include/Node.hpp \
  include/RValue.hpp include/Value.hpp include/LexerTokenDefinitions.hpp \
- include/Statement.hpp include/RValueValueParseException.hpp \
- include/Stringifyer.hpp include/VariableDefinition.hpp \
- include/FunctionDefinition.hpp include/StatementList.hpp \
- include/VariableDefinitionList.hpp include/LValue.hpp \
- include/FunctionCall.hpp include/ValueList.hpp include/Operation.hpp \
- include/UnaryOperation.hpp include/BinaryOperation.hpp \
- include/ControlFlowStatement.hpp include/Conditional.hpp \
- include/ControllableLoop.hpp include/ForLoop.hpp include/WhileLoop.hpp \
- include/LoopControlStatement.hpp include/ReturnStatement.hpp
+ include/Statement.hpp include/Utilities.hpp \
+ include/VariableDefinition.hpp include/FunctionDefinition.hpp \
+ include/StatementList.hpp include/VariableDefinitionList.hpp \
+ include/LValue.hpp include/FunctionCall.hpp include/ValueList.hpp \
+ include/Operation.hpp include/UnaryOperation.hpp \
+ include/BinaryOperation.hpp include/ControlFlowStatement.hpp \
+ include/Conditional.hpp include/ControllableLoop.hpp include/ForLoop.hpp \
+ include/WhileLoop.hpp include/LoopControlStatement.hpp \
+ include/ReturnStatement.hpp
 
 include/RValueValue.hpp:
 
@@ -1220,9 +1220,7 @@ include/LexerTokenDefinitions.hpp:
 
 include/Statement.hpp:
 
-include/RValueValueParseException.hpp:
-
-include/Stringifyer.hpp:
+include/Utilities.hpp:
 
 include/VariableDefinition.hpp:
 

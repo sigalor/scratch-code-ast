@@ -17,7 +17,7 @@ namespace ast
 	class LoopControlStatement : public ControlFlowStatement														//break, continue
 	{
 		public:
-			static const int									uniqueId = 0x00003411;
+			static const int									uniqueId;
 	
 		private:
 			Lexer::ParsedLoopControlStatement					statement;

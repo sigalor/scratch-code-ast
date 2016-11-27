@@ -4,6 +4,8 @@
 
 namespace ast
 {
+	const int ReturnStatement::uniqueId = 0x00004411;
+
 	ReturnStatement::ReturnStatement(int newId) : ControlFlowStatement(newId) { }
 	ReturnStatement::ReturnStatement(int newId, std::shared_ptr<Node> newParent) : ControlFlowStatement(newId, newParent) { }
 	ReturnStatement::ReturnStatement(int newId, std::shared_ptr<Node> newParent, std::shared_ptr<Value> newValue, std::shared_ptr<FunctionDefinition> newTargetFunc) : ControlFlowStatement(newId, newParent), value(newValue), targetFunc(newTargetFunc) { }

@@ -10,8 +10,7 @@
 #include "Node.hpp"
 #include "RValue.hpp"
 #include "LexerTokenDefinitions.hpp"
-#include "RValueValueParseException.hpp"
-#include "Stringifyer.hpp"
+#include "Utilities.hpp"
 
 
 
@@ -20,16 +19,16 @@ namespace ast
 	class RValueValue : public RValue
 	{
 		public:
-			static const int									uniqueId = 0x00012311;
+			static const int									uniqueId;
 	
 		private:
 			Lexer::ParsedVariableType							type;
 			boost::variant<bool, uint64_t, double, std::string>	value;												//may contain values for all variable types in ast::Lexer::ParsedVariableType
 		
 		protected:
-			//RValueValue(int newId);
-			//RValueValue(int newId, std::shared_ptr<Node> newParent);
-			//RValueValue(int newId, std::shared_ptr<Node> newParent, bool newValue);
+			RValueValue(int newId);
+			RValueValue(int newId, std::shared_ptr<Node> newParent);
+			RValueValue(int newId, std::shared_ptr<Node> newParent, bool newValue);
 		
 		public:
 			using ValueVariantType = decltype(value);
@@ -44,6 +43,7 @@ namespace ast
 			Lexer::ParsedVariableType							getType();
 			ValueVariantType&									getValue();
 			const std::string									getValueString() const;
+			virtual Lexer::ParsedVariableType					getEffectiveType() { return type; }
 			void												setValue(bool newValue);
 			void												setValue(uint64_t newValue);
 			void												setValue(double newValue);

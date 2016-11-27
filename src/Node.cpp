@@ -4,6 +4,8 @@
 
 namespace ast
 {
+	const int Node::uniqueId = 0x00000001;
+
 	Node::Node(int newId) : id(newId) { }
 	Node::Node(int newId, std::shared_ptr<Node> newParent) : id(newId), parent(newParent) { }
 

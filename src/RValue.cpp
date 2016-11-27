@@ -4,6 +4,8 @@
 
 namespace ast
 {
+	const int RValue::uniqueId = 0x00002311;
+
 	RValue::RValue(int newId) : Value(newId) { }
 	RValue::RValue(int newId, std::shared_ptr<Node> newParent) : Value(newId, newParent) { }
 

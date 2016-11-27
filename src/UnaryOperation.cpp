@@ -4,6 +4,8 @@
 
 namespace ast
 {
+	const int UnaryOperation::uniqueId = 0x00013311;
+
 	UnaryOperation::UnaryOperation(int newId) : Operation(newId), operation(Lexer::ParsedUnaryOperation::Invalid) { }
 	UnaryOperation::UnaryOperation(int newId, std::shared_ptr<Node> newParent) : Operation(newId, newParent), operation(Lexer::ParsedUnaryOperation::Invalid) { }
 	UnaryOperation::UnaryOperation(int newId, std::shared_ptr<Node> newParent, Lexer::ParsedUnaryOperation newOperation, std::shared_ptr<Value> newValue) : Operation(newId, newParent), operation(newOperation), value(newValue) { }

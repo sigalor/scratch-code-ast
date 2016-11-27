@@ -13,7 +13,7 @@ namespace ast
 	class Statement : public Node
 	{
 		public:
-			static const int									uniqueId = 0x00000011;
+			static const int									uniqueId;
 	
 		private:
 		

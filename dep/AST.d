@@ -360,8 +360,7 @@ obj/AST.o: src/AST.cpp include/AST.hpp include/Node.hpp \
  ext/boost/boost/variant/detail/element_index.hpp \
  ext/boost/boost/type_traits/add_pointer.hpp \
  ext/boost/boost/variant/visitor_ptr.hpp \
- ext/boost/boost/variant/bad_visit.hpp \
- include/RValueValueParseException.hpp include/Stringifyer.hpp \
+ ext/boost/boost/variant/bad_visit.hpp include/Utilities.hpp \
  include/FunctionCall.hpp include/ValueList.hpp include/Operation.hpp \
  include/UnaryOperation.hpp include/BinaryOperation.hpp \
  include/ControlFlowStatement.hpp include/Conditional.hpp \
@@ -1232,9 +1231,7 @@ ext/boost/boost/variant/visitor_ptr.hpp:
 
 ext/boost/boost/variant/bad_visit.hpp:
 
-include/RValueValueParseException.hpp:
-
-include/Stringifyer.hpp:
+include/Utilities.hpp:
 
 include/FunctionCall.hpp:
 

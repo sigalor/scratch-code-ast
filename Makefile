@@ -18,7 +18,7 @@ INCLUDE_PATHS=-I$(PROJECT_INCLUDE_DIR) -I$(PROJECT_EXT_DIR)/boost
 
 # names and options for used programs
 CXX=g++
-CXXFLAGS=-std=c++14 -Wall $(INCLUDE_PATHS)
+CXXFLAGS=-std=c++14 -g -Wall $(INCLUDE_PATHS)
 AR=ar
 ARFLAGS=rcs
 DISCARD_OUTPUT=/dev/null

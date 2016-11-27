@@ -4,6 +4,8 @@
 
 namespace ast
 {
+	const int LValue::uniqueId = 0x00001311;
+
 	LValue::LValue(int newId) : Value(newId) { }
 	LValue::LValue(int newId, std::shared_ptr<Node> newParent) : Value(newId, newParent) { }
 	LValue::LValue(int newId, std::shared_ptr<Node> newParent, std::shared_ptr<VariableDefinition> newAssocVarDef) : Value(newId, newParent), assocVarDef(newAssocVarDef) { }

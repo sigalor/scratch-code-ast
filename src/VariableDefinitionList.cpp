@@ -4,6 +4,8 @@
 
 namespace ast
 {
+	const int VariableDefinitionList::uniqueId = 0x00000031;
+
 	VariableDefinitionList::VariableDefinitionList(int newId) : Node(newId) { }
 	VariableDefinitionList::VariableDefinitionList(int newId, std::shared_ptr<Node> newParent) : Node(newId, newParent) { }
 	VariableDefinitionList::VariableDefinitionList(int newId, std::shared_ptr<Node> newParent, const std::vector<std::shared_ptr<VariableDefinition>>& newVarDefs) : Node(newId, newParent), varDefs(newVarDefs) { }

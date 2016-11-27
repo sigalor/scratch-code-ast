@@ -4,6 +4,8 @@
 
 namespace ast
 {
+	const int Operation::uniqueId = 0x00003311;
+
 	Operation::Operation(int newId) : Value(newId) { }
 	Operation::Operation(int newId, std::shared_ptr<Node> newParent) : Value(newId, newParent) { }
 

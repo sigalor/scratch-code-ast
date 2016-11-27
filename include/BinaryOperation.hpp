@@ -16,7 +16,7 @@ namespace ast
 	class BinaryOperation : public Operation																		//arithmetic (+, -, *, /), logical (&&, ||), comparative (<, <=, >, >=, ==, !=), binary (&, |, ^)...
 	{
 		public:
-			static const int									uniqueId = 0x00023311;
+			static const int									uniqueId;
 	
 		private:
 			std::shared_ptr<Value>								lhs;
@@ -35,6 +35,7 @@ namespace ast
 			std::shared_ptr<Value>								getLhs();
 			Lexer::ParsedBinaryOperation						getOperation();
 			std::shared_ptr<Value>								getRhs();
+			virtual Lexer::ParsedVariableType					getEffectiveType() { return (lhs==nullptr ? (rhs==nullptr ? Lexer::ParsedVariableType::Invalid : rhs->getEffectiveType()) : lhs->getEffectiveType()); }				//it is guaranteed by the parser that "lhs" and "rhs" have the same type, so it's irrelevant wheather "lhs" or "rhs" is used here
 			virtual Lexer::ValueCategory						getValueCategory() { return getResultingValueCategory(); }
 			Lexer::ValueCategory								getRequiredLhsValueCategory();
 			Lexer::ValueCategory								getRequiredRhsValueCategory();

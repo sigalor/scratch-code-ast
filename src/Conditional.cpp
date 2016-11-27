@@ -4,6 +4,8 @@
 
 namespace ast
 {
+	const int Conditional::uniqueId = 0x00001411;
+
 	Conditional::Conditional(int newId) : ControlFlowStatement(newId) { }
 	Conditional::Conditional(int newId, std::shared_ptr<Node> newParent) : ControlFlowStatement(newId, newParent) { }
 	Conditional::Conditional(int newId, std::shared_ptr<Node> newParent, std::vector<std::shared_ptr<Value>> newConditions, std::vector<std::shared_ptr<StatementList>> newConsequenceBodies, std::shared_ptr<StatementList> newAlternativeBody) : ControlFlowStatement(newId, newParent), conditions(newConditions), consequenceBodies(newConsequenceBodies), alternativeBody(newAlternativeBody) { }

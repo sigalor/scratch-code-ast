@@ -16,7 +16,7 @@ namespace ast
 	class ReturnStatement : public ControlFlowStatement
 	{
 		public:
-			static const int									uniqueId = 0x00004411;
+			static const int									uniqueId;
 	
 		private:
 			std::shared_ptr<Value>								value;

@@ -4,6 +4,8 @@
 
 namespace ast
 {
+	const int FunctionDefinition::uniqueId = 0x00000211;
+
 	FunctionDefinition::FunctionDefinition(int newId) : Statement(newId), returnType(Lexer::ParsedVariableType::Invalid) { }
 	FunctionDefinition::FunctionDefinition(int newId, std::shared_ptr<Node> newParent) : Statement(newId, newParent), returnType(Lexer::ParsedVariableType::Invalid) { }
 	FunctionDefinition::FunctionDefinition(int newId, std::shared_ptr<Node> newParent, Lexer::ParsedVariableType newReturnType, const std::string& newName, std::shared_ptr<VariableDefinitionList> newArgs, std::shared_ptr<StatementList> newBody) : Statement(newId, newParent), returnType(newReturnType), name(newName), args(newArgs), body(newBody) { }

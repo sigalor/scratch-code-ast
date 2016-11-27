@@ -16,7 +16,7 @@ namespace ast
 	class FunctionCall : public RValue
 	{
 		public:
-			static const int									uniqueId = 0x00022311;
+			static const int									uniqueId;
 	
 		private:
 			std::shared_ptr<FunctionDefinition>					assocFunc;
@@ -33,6 +33,7 @@ namespace ast
 			FunctionCall(std::shared_ptr<Node> newParent, std::shared_ptr<FunctionDefinition> newAssocFunc, std::shared_ptr<ValueList> newArgs);
 			std::shared_ptr<FunctionDefinition>					getAssocFunc();
 			std::shared_ptr<ValueList>							getArgs();
+			virtual Lexer::ParsedVariableType					getEffectiveType() { return (assocFunc==nullptr ? Lexer::ParsedVariableType::Invalid : assocFunc->getReturnType()); }
 			void												setAssocFunc(std::shared_ptr<FunctionDefinition> newAssocFunc);
 			void												setArgs(std::shared_ptr<ValueList> newArgs);
 	};

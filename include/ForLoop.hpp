@@ -16,7 +16,7 @@ namespace ast
 	class ForLoop : public ControllableLoop																			//for loops are constructed like this: for(initialization; condition; afterthought) { body; }
 	{
 		public:
-			static const int									uniqueId = 0x00012411;
+			static const int									uniqueId;
 	
 		private:
 			std::shared_ptr<Value>								initialization, condition, afterthought;

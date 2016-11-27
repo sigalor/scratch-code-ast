@@ -15,7 +15,7 @@ namespace ast
 	class ValueList : public Node																				//needed from FunctionCall
 	{
 		public:
-			static const int									uniqueId = 0x00000041;
+			static const int									uniqueId;
 	
 		private:
 			std::vector<std::shared_ptr<Value>>					values;

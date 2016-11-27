@@ -16,7 +16,7 @@ namespace ast
 	class WhileLoop : public ControllableLoop
 	{
 		public:
-			static const int									uniqueId = 0x00022411;
+			static const int									uniqueId;
 	
 		private:
 			std::shared_ptr<Value>								condition;

@@ -16,7 +16,7 @@ namespace ast
 	class VariableDefinition : public Statement
 	{
 		public:
-			static const int									uniqueId = 0x00000111;
+			static const int									uniqueId;
 	
 		private:
 			Lexer::ParsedVariableType							type;

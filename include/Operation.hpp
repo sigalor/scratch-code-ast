@@ -15,7 +15,7 @@ namespace ast
 	class Operation : public Value
 	{
 		public:
-			static const int									uniqueId = 0x00003311;
+			static const int									uniqueId;
 	
 		private:
 		

@@ -17,7 +17,7 @@ namespace ast
 	class Value : public Statement
 	{
 		public:
-			static const int									uniqueId = 0x00000311;
+			static const int									uniqueId;
 	
 		private:
 		
@@ -28,6 +28,7 @@ namespace ast
 		public:
 			Value();
 			Value(std::shared_ptr<Node> newParent);
+			virtual Lexer::ParsedVariableType					getEffectiveType() { return Lexer::ParsedVariableType::Invalid; }
 			virtual Lexer::ValueCategory						getValueCategory() { return Lexer::ValueCategory::Invalid; }
 	};
 }

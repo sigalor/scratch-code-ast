@@ -4,6 +4,8 @@
 
 namespace ast
 {
+	const int LoopControlStatement::uniqueId = 0x00003411;
+
 	LoopControlStatement::LoopControlStatement(int newId) : ControlFlowStatement(newId), statement(Lexer::ParsedLoopControlStatement::Invalid) { }
 	LoopControlStatement::LoopControlStatement(int newId, std::shared_ptr<Node> newParent) : ControlFlowStatement(newId, newParent), statement(Lexer::ParsedLoopControlStatement::Invalid) { }
 	LoopControlStatement::LoopControlStatement(int newId, std::shared_ptr<Node> newParent, Lexer::ParsedLoopControlStatement newStatement, std::shared_ptr<ControllableLoop> newTargetLoop) : ControlFlowStatement(newId, newParent), statement(newStatement), targetLoop(newTargetLoop) { }
