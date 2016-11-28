@@ -283,7 +283,7 @@ namespace ast
 			ret.insert(fl.size(), "ValueList");
 			if(fullOutput)
 			{
-				ret += ",\n";
+				ret += ",\n" +
 					   indentStr1 + "values = std::vector of size " + std::to_string(objReal->getValues().size()) + "\n" +
 					   indentStr1 + "[\n";
 				for(auto it = objReal->getValues().begin(); it != objReal->getValues().end(); ++it)
