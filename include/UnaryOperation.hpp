@@ -37,7 +37,8 @@ namespace ast
 			{
 				switch(operation)
 				{
-					case Lexer::ParsedUnaryOperation::TypecastBool		: return Lexer::ParsedVariableType::Bool;
+					case Lexer::ParsedUnaryOperation::LogicalNot		:											//logical operations always result in bool
+					case Lexer::ParsedUnaryOperation::TypecastBool		: return Lexer::ParsedVariableType::Bool;	//typecasts always have the effect of changing the resulting type
 					case Lexer::ParsedUnaryOperation::TypecastInt		: return Lexer::ParsedVariableType::Int;
 					case Lexer::ParsedUnaryOperation::TypecastReal		: return Lexer::ParsedVariableType::Real;
 					case Lexer::ParsedUnaryOperation::TypecastString	: return Lexer::ParsedVariableType::String;

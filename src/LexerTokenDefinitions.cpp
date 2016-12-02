@@ -200,16 +200,17 @@ namespace ast
 		
 		bool isTypeAllowed(ParsedUnaryOperation puOperation, ParsedVariableType pvType)
 		{
+			if(pvType == ParsedVariableType::Void)
+				return false;
+			
 			switch(puOperation)
 			{
 				case ParsedUnaryOperation::TypecastBool:															//typecast to bool: for int: true when var!=0, for real: true when var!=0.0, for string: true for "true" or "1", false otherwise
 				case ParsedUnaryOperation::TypecastInt:																//typecast to int: for bool: 1 when true, 0 otherwise, for real: floor(var), for string: try to parse as int, 0 on failure
 				case ParsedUnaryOperation::TypecastReal:															//typecast to real: for bool: 1.0 when true, 0.0 otherwise, for int: var is kept, for string: try to parse as real, 0.0 on failure
 				case ParsedUnaryOperation::TypecastString:															//typecast to string: for bool: "true" or "false", for int and real: stringified value
+				case ParsedUnaryOperation::LogicalNot:																//value is implicitly casted to bool for logical operations
 					return true;
-				
-				case ParsedUnaryOperation::LogicalNot:																//logical not makes sense for all types except string
-					return (pvType != ParsedVariableType::String);
 				
 				case ParsedUnaryOperation::PrefixIncrement:															//increment, decrement, unary plus and minus only make sense for numeric types
 				case ParsedUnaryOperation::PrefixDecrement:
@@ -229,13 +230,16 @@ namespace ast
 		
 		bool isTypeAllowed(ParsedBinaryOperation pbOperation, ParsedVariableType pvType)
 		{
+			if(pvType == ParsedVariableType::Void)
+				return false;
+		
 			switch(pbOperation)
 			{
-				case ParsedBinaryOperation::Add:																		//add is normal addition for int and real, string concatenation for string
+				case ParsedBinaryOperation::Add:																	//add is normal addition for int and real, string concatenation for string
 				case ParsedBinaryOperation::AddAssignment:
 					return (pvType != ParsedVariableType::Bool);
 				
-				case ParsedBinaryOperation::Subtract:																	//normal mathematical operators only for int and real
+				case ParsedBinaryOperation::Subtract:																//normal mathematical operators only for int and real
 				case ParsedBinaryOperation::Multiply:
 				case ParsedBinaryOperation::Divide:
 				case ParsedBinaryOperation::Modulo:
@@ -245,7 +249,7 @@ namespace ast
 				case ParsedBinaryOperation::ModuloAssignment:
 					return (pvType == ParsedVariableType::Int  ||  pvType == ParsedVariableType::Real);
 				
-				case ParsedBinaryOperation::BitwiseAnd:																	//bitwise operators, as above, only for bool and int
+				case ParsedBinaryOperation::BitwiseAnd:																//bitwise operators, as above, only for bool and int
 				case ParsedBinaryOperation::BitwiseOr:
 				case ParsedBinaryOperation::BitwiseXor:
 				case ParsedBinaryOperation::BitwiseAndAssignment:
@@ -253,19 +257,19 @@ namespace ast
 				case ParsedBinaryOperation::BitwiseXorAssignment:
 					return (pvType == ParsedVariableType::Bool  ||  pvType == ParsedVariableType::Int);
 				
-				case ParsedBinaryOperation::BitshiftLeft:																//bitshifts are only for ints
+				case ParsedBinaryOperation::BitshiftLeft:															//bitshifts are only for ints
 				case ParsedBinaryOperation::BitshiftRight:
 				case ParsedBinaryOperation::BitshiftLeftAssignment:
 				case ParsedBinaryOperation::BitshiftRightAssignment:
 					return (pvType == ParsedVariableType::Int);
 				
-				case ParsedBinaryOperation::LogicalAnd:																	//logical and and or are evaluated by implicitly casting the values to "bool" beforehand (see there for details)
+				case ParsedBinaryOperation::LogicalAnd:																//logical and and or are evaluated by implicitly casting the values to "bool" beforehand (see there for details)
 				case ParsedBinaryOperation::LogicalOr:
-				case ParsedBinaryOperation::LessThan:																	//comparison operators are evaluated by implicitly casting the values to "int" beforehand, except that "real" is kept as it is
+				case ParsedBinaryOperation::LessThan:																//comparison operators are evaluated by implicitly casting the values to "int" beforehand, except that "real" is kept as it is
 				case ParsedBinaryOperation::LessThanOrEqual:
 				case ParsedBinaryOperation::GreaterThan:
 				case ParsedBinaryOperation::GreaterThanOrEqual:
-				case ParsedBinaryOperation::Equal:																		//equality, inequality and assignment are applicable for all types
+				case ParsedBinaryOperation::Equal:																	//equality, inequality and assignment are applicable for all types
 				case ParsedBinaryOperation::NotEqual:
 				case ParsedBinaryOperation::Assignment:
 					return true;
