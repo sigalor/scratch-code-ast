@@ -10,7 +10,7 @@ When you look at the file `include/AST.hpp`, you can see the class hierarchy of 
 ![inheritance graph](https://github.com/sigalor/scratch-code-ast/raw/master/info/inherit_graph.png)
 
 ## Class descriptions
-As you can see, the `Node` class is the ancestor of all other classes. Descriptions all of the classes are:
+As you can see, the `ast::Node` class is the ancestor of all other classes. Descriptions all of the classes are:
 
 Class name | Description
 ---------- | -----------
@@ -19,26 +19,26 @@ Class name | Description
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**VariableDefinition** | defines a variable, consisting of a type and a name
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**FunctionDefinition** | defines a function, consisting of a return type, name, argument names and types and statement list
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Value** | bundles class instances which can be used as a single value
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**LValue** | means _locatable value_, i.e. references a `VariableDefinition` which has a specific and user-defined point in memory
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**RValue** | is the opposite of `LValue`, i.e. you do not really know where this value is actually stored
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**RValueValue** | represents a simple literal, either bool (`true` or `false`), number (e.g. `42` or `3.14159`) or string (e.g. `Example string`)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**LValue** | means _locatable value_, i.e. references a `ast::VariableDefinition` which has a specific and user-defined point in memory
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**RValue** | is the opposite of `ast::LValue`, i.e. you do not really know where this value is actually stored as it is temporary
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**RValueValue** | represents a simple literal, either `bool` (`true` or `false`), `int` (e.g. `42`), `real` (e.g. `3.14159`) or string (e.g. `"Example string"`)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**FunctionCall** | represents calling a function previously defined by `FunctionDefinition`, is an `RValue`, as a returned value has this property
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Operation** | bundles unary and binary operations
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**UnaryOperation** | combines a `Value` with an unary operator (see below)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**BinaryOperation** | combines two instances of `Value`, left hand side and right hand side, with a binary operator (see below)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**UnaryOperation** | combines a `ast::Value` with an unary operator (see below)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**BinaryOperation** | combines two instances of `ast::Value`, left hand side and right hand side, with a binary operator (see below)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**ControlFlowStatement** | bundles statements which are able to change the flow of execution, i.e. make it possible for it to have multiple paths
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Conditional** | represents _if [else if]* [else]?_ statements, i.e. conditional objects which consist of multiple conditions (_if_ and _else if_) and a final alternative (_else_).
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**ControllableLoop** | bundles loops which are controllable by a `LoopControlStatement`
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Conditional** | represents _if [else if]* [else]?_ statements, i.e. conditional objects which consist of multiple conditions (_if_ and _else if_) and a final alternative (_else_)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**ControllableLoop** | bundles loops which are controllable by a `ast::LoopControlStatement`
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**ForLoop** | a classic _for_ loop, consisting of an initialization, condition, afterthought and statements
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**WhileLoop** | a classic _while_ loop, consisting of a condition and statements
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**LoopControlStatement** | controls a `ControllableLoop`, e.g. with `break` or `continue`
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**ReturnStatement** | belongs to a `FunctionDefintion` and makes this function return the specified value, or nothing for void
-&nbsp;&nbsp;&nbsp;&nbsp;**StatementList** | is essentially just an array of `Statement`, used to integrate it better into the `ast` namespace
-&nbsp;&nbsp;&nbsp;&nbsp;**VariableDefinitionList** | an array of `VariableDefinition`
-&nbsp;&nbsp;&nbsp;&nbsp;**ValueList** | an array of `Value`
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**LoopControlStatement** | can control a `ast::ControllableLoop` with `break` or `continue`
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**ReturnStatement** | belongs to a `ast::FunctionDefintion` and makes this function return the specified value, or nothing for void
+&nbsp;&nbsp;&nbsp;&nbsp;**StatementList** | is essentially just an array of `ast::Statement`, used to integrate it better into the `ast` namespace
+&nbsp;&nbsp;&nbsp;&nbsp;**VariableDefinitionList** | an array of `ast::VariableDefinition`
+&nbsp;&nbsp;&nbsp;&nbsp;**ValueList** | an array of `ast::Value`
 
 ## Variable types
-In the strongly-typed enumeration `ParsedVariableType` in `include/LexerTokenDefinitions.hpp`, there are multiple variable types defined. `scratch-code-ast` has very strict typing, so these are the only types available.
+In the strongly-typed enumeration `ast::Lexer::ParsedVariableType` in `include/LexerTokenDefinitions.hpp`, there are multiple variable types defined. `scratch-code-ast` has very strict typing, so these are the only types available.
 
 Type name | Default value | Description
 --------- | ------------- | -----------
@@ -59,37 +59,150 @@ On the other hand, an rvalue is a temporary value. It cannot be accessed again a
 
 For another explanation, look at a simple assignment like `a = 42;` (of course `a` has been defined before). Here, `a` is an lvalue which references the previously defined variable `a`. Thus, you can assign something to it, in this case `42`. Next, look at the incorrect statement `a+3 = 123;`. This makes no sense, as the left hand side of the assignment operator is now an rvalue, because `a+3` is just temporary. Thus, you can only assign to lvalues. That's why this concept is essential for `scratch-code-ast`.
 
-## Operations
+### IDs
+In the file `include/AST.hpp` you can see different hexadecimal numbers as a comment besides the class predeclarations. These are the ids used by `scratch-code-ast`. When you look at any class definition (let's take `ast::LValue` as an example), you always have the static member `static const int uniqueId;` and something like `const int LValue::uniqueId = 0x00001311;` in the final implementation. These ids are, of course, unique for a class and follow a specific pattern.
 
-There are some things to say about different kinds of operations.
+Reading the ids is done from right to left. The left-most hexadecimal digit shows the class's index on the very first level. As `ast::Node` is the ancestor of all other classes, it has the id `0x00000001`. On the next level, there are the classes `ast::Statement` with `0x00000011`, `ast::StatementList` with `0x00000021`, `ast::VariableDefinitionList` with `0x00000031` and `ast::ValueList` with `0x00000041`. As you can see, `ast::Node` has exactly four direct children and their ids are set by their index. As they all are on the second level, the changed digit is the second one from the right.
 
-- First of all, the logical ones: `LogicalNot`, `LogicalAnd` and `LogicalOr`. When you apply these to a value, this value is always implicitly casted to `bool` beforehand, i.e. `if(!a)` means `if(!((bool)a))`. As you can see in the *Allowed input types* for unary operations below, a typecast to bool is possible for all types that have a value.
-- Next, comparison operators (`LessThan`, `LessThanOrEqual`, `GreaterThan`, `GreaterThanOrEqual`, `Equal`, `NotEqual`) are evaluated by implicitly casting the values to `int`, except that `real` is kept as it is.
+It's the same with the children of `ast::Statement`. As they are on the third level, only the third digit from the right is changed.
+
+As you can see, this way it is possible to directly get the ancestors of a class when you only have the id. When you get an id like `0x00022411`, you directly know that the class that has it is derived from `ast::Node`, `ast::Statement`, `ast::ControlFlowStatement`, `ast::ControllableLoop` and finally is an `ast::WhileLoop`.
+
+### Typecasts
+
+In `scratch-code-ast`, you may convert any type to any other type. The following table shows what happens during the different kinds of typecasts.
+
+<table>
+	<tr>
+		<td></td>
+		<td></td>
+		<td colspan="4"><center><b>To</b></center></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td>bool</td>
+		<td>int</td>
+		<td>real</td>
+		<td>string</td>
+	</tr>
+	<tr>
+		<td rowspan="4"><b>From</b></td>
+		<td>bool</td>
+		<td><i>(none)</i></td>
+		<td>1 when true, 0 when false</td>
+		<td>1.0 when true, 0.0 when false</td>
+		<td>"true" when true, "false" when false</td>
+	</tr>
+	<tr>
+		<td>int</td>
+		<td>false when 0, true otherwise</td>
+		<td><i>(none)</i></td>
+		<td>value is kept</td>
+		<td>decimal value as text</td>
+	</tr>
+	<tr>
+		<td>float</td>
+		<td>false when 0.0, true otherwise</td>
+		<td>value is floored to the next integer</td>
+		<td><i>(none)</i></td>
+		<td>decimal value as text</td>
+	</tr>
+	<tr>
+		<td>string</td>
+		<td>true when "true", false otherwise</td>
+		<td>try to parse as int, 0 on failure</td>
+		<td>try to parse as real, 0 on failure</td>
+		<td><i>(none)</i></td>
+	</tr>
+</table>
+
+## Operators
+
+There are some things to say about different kinds of operators.
+
+- First of all, the logical ones: `LogicalNot`, `LogicalAnd` and `LogicalOr`. When you apply these to a value, this value is always implicitly casted to `bool` beforehand, i.e. `if(!a)` means `if(!((bool)a))`. As you can see in the *Allowed input types* for unary operators below, a typecast to bool is possible for all types different from `void`, i.e. all types that imply a value.
+- Next, comparison operators like `LessThan`, `LessThanOrEqual`, `GreaterThan`, `GreaterThanOrEqual` are evaluated by implicitly casting the values to `int`, except that `real` is kept as it is.
 - The binary `Add` operator is not only applicable to numeric types (i.e. `int` and `real`, but also to `string`. In this case, it means string concatenation.
-- The difference between the prefix and postfix increment and decrement operators is rather hard to get, but if you would really like to understand it, look at [this](http://stackoverflow.com/a/7031409/3554605) Stack Overflow answer (it is not by me though).
+- The difference between the prefix and postfix increment and decrement operators is rather hard to get, but if you would really like to understand it, look at [this](http://stackoverflow.com/a/7031409) Stack Overflow answer (it is not by me though).
 
-### Unary operations
-Another strongly-types enumeration in `include/LexerTokenDefinitions.hpp` is `ParsedUnaryOperation`. It contains the operation used for the `ast::UnaryOperation` class. They all have almost the same meaning in C, making a separate explanation not necessary. The *input value category* and *output value category* column contents were extracted from the functions `getRequiredValueCategory` and `getResultingValueCategory` defined in `src/LexerTokenDefinitions.hpp`. The position is given relative to the input value, e.g. for a LogicalNot, `~a` is correct, while `a~` is not.
+To decrease the width of the following tables, _valcat_ is used instead of _value category_, _lhs_ instead of _left hand side_ and _rhs_ instead of _right hand side_.
 
-Name | Symbol | Position | Allowed input types | Input value category | Output value category
----- | --------- | -------------------- | ---------------------
-LogicalNot | `!` | before | bool, int, real, string | any | rvalue
-BitwiseNot | `~` | before | bool, int | any | rvalue
-PrefixIncrement | `++` | before | int, real | lvalue | lvalue
-PrefixDecrement | `--` | before | int, real | lvalue | lvalue
-PostfixIncrement | `++` | after | int, real | lvalue | rvalue
-PostfixDecrement | `--` | after | int, real | lvalue | rvalue
-UnaryPlus | `+` | before | int, real | any | rvalue
-UnaryMinus | `-` | before | int, real | any | rvalue
-TypecastBool | `(bool)` | before | bool, int, real, string | any | rvalue
-TypecastInt | `(int)` | before | bool, int, real, string | any | rvalue
-TypecastReal | `(real)` | before | bool, int, real, string | any | rvalue
-TypecastString | `(string)` | before | bool, int, real, string | any | rvalue
+### Unary operators
+Another strongly-typed enumeration in `include/LexerTokenDefinitions.hpp` is `ParsedUnaryOperation`. It contains the operators used for the `ast::UnaryOperation` class. They all have almost the same meaning in C, making a separate explanation not necessary. The _input valcat_ and _output valcat_ column contents were extracted from the functions `ast::Lexer::getRequiredValueCategory` and `ast::Lexer::getResultingValueCategory` defined in `src/LexerTokenDefinitions.cpp`. The contents of the _output types_ column were taken from the `ast::Lexer::getResultingType` function from the same file. The position is given relative to the input value, e.g. for a LogicalNot, `~a` is correct, while `a~` is not.
 
-### Binary operations
-Similarly to unary operations, binary operations are defined in the strongly-typed enumeration `ParsedBinaryOperation` in  `include/LexerTokenDefinitions.hpp` as well. They are used for the `ast::BinaryOperation` class. Again, there is no difference to C. The value category information also comes from the same file. Note that, for an `ast::BinaryOperation`, the types of both values need to be the same. If they are not, that's what typecasts are for.
+Name | Symbol | Position | Allowed input types | Input valcat | Output valcat | Output type
+---- | ------ | -------- | ------------------- | ------------ | ------------- | -----------
+LogicalNot | `!` | before | bool, int, real, string | _(any)_ | rvalue | bool
+BitwiseNot | `~` | before | bool, int | _(any)_ | rvalue | _(input type kept)_
+PrefixIncrement | `++` | before | int, real | lvalue | lvalue | _(input type kept)_
+PrefixDecrement | `--` | before | int, real | lvalue | lvalue | _(input type kept)_
+PostfixIncrement | `++` | after | int, real | lvalue | rvalue | _(input type kept)_
+PostfixDecrement | `--` | after | int, real | lvalue | rvalue | _(input type kept)_
+UnaryPlus | `+` | before | int, real | _(any)_ | rvalue | _(input type kept)_
+UnaryMinus | `-` | before | int, real | _(any)_ | rvalue | _(input type kept)_
+TypecastBool | `(bool)` | before | bool, int, real, string | _(any)_ | rvalue | bool
+TypecastInt | `(int)` | before | bool, int, real, string | _(any)_ | rvalue | int
+TypecastReal | `(real)` | before | bool, int, real, string | _(any)_ | rvalue | real
+TypecastString | `(string)` | before | bool, int, real, string | _(any)_ | rvalue | string
 
-Name | Symbol | Left hand side input value category | Right hand side input value category | Output value category
+### Binary operators
+Similarly to unary operators, binary operators are defined in the strongly-typed enumeration `ParsedBinaryOperation` in  `include/LexerTokenDefinitions.hpp` as well. They are used for the `ast::BinaryOperation` class. Again, there is no difference to C. The value category and type information also comes from the same file. Note that, for an `ast::BinaryOperation`, the types of both values need to be the same. If they are not, that's what typecasts are for.
+
+Name | Symbol | Allowed input types | Lhs input valcat | Rhs input valcat | Output valcat | Output type
+---- | ------ | ------------------- | ---------------- | ---------------- | ------------- | -----------
+Add | `+` | int, real, string | _(any)_ | _(any)_ | rvalue | _(input type kept)_
+Subtract | `-` | int, real | _(any)_ | _(any)_ | rvalue | _(input type kept)_
+Multiply | `*` | int, real | _(any)_ | _(any)_ | rvalue | _(input type kept)_
+Divide | `/` | int, real | _(any)_ | _(any)_ | rvalue | _(input type kept)_
+Modulo | `%` | int, real | _(any)_ | _(any)_ | rvalue | _(input type kept)_
+BitwiseAnd | `&` | bool, int | _(any)_ | _(any)_ | rvalue | _(input type kept)_
+BitwiseOr | `\|` | bool, int | _(any)_ | _(any)_ | rvalue | _(input type kept)_
+BitwiseXor | `^` | bool, int | _(any)_ | _(any)_ | rvalue | _(input type kept)_
+BitshiftLeft | `<<` | int | _(any)_ | _(any)_ | rvalue | _(input type kept)_
+BitshiftRight | `>>` | int | _(any)_ | _(any)_ | rvalue | _(input type kept)_
+Assignment | `=` | bool, int, real, string | lvalue | _(any)_ | lvalue | _(input type kept)_
+AddAssignment | `+=` | int, real, string | lvalue | _(any)_ | lvalue | _(input type kept)_
+SubtractAssignment | `-=` | int, real | lvalue | _(any)_ | lvalue | _(input type kept)_
+MultiplyAssignment | `*=` | int, real | lvalue | _(any)_ | lvalue | _(input type kept)_
+DivideAssignment | `/=` | int, real | lvalue | _(any)_ | lvalue | _(input type kept)_
+ModuloAssignment | `%=` | int, real | lvalue | _(any)_ | lvalue | _(input type kept)_
+BitwiseAndAssignment | `&=` | bool, int | lvalue | _(any)_ | lvalue | _(input type kept)_
+BitwiseOrAssignment | `\|=` | bool, int | lvalue | _(any)_ | lvalue | _(input type kept)_
+BitwiseXorAssignment | `^=` | bool, int | lvalue | _(any)_ | lvalue | _(input type kept)_
+BitshiftLeftAssignment | `<<=` | int | lvalue | _(any)_ | lvalue | _(input type kept)_
+BitshiftRightAssignment | `>>=` | int | lvalue | _(any)_ | lvalue | _(input type kept)_
+LogicalAnd | `&&` | bool, int, real, string | _(any)_ | _(any)_ | rvalue | bool
+LogicalOr | `\|\|` | bool, int, real, string | _(any)_ | _(any)_ | rvalue | bool
+LessThan | `<` | bool, int, real, string | _(any)_ | _(any)_ | rvalue | bool
+LessThanOrEqual | `<=` | bool, int, real, string | _(any)_ | _(any)_ | rvalue | bool
+GreaterThan | `>` | bool, int, real, string | _(any)_ | _(any)_ | rvalue | bool
+GreaterThanOrEqual | `>=` | bool, int, real, string | _(any)_ | _(any)_ | rvalue | bool
+Equal | `==` | bool, int, real, string | _(any)_ | _(any)_ | rvalue | bool
+NotEqual | `!=` | bool, int, real, string | _(any)_ | _(any)_ | rvalue | bool
+
+### Operator precedence
+Just like in C, operators in `scratch-code-ast` have precedence. For example, because multiplication has a higher precedence (i.e. a lower number in the following table) than addition, `3+4*5` is evaluated like `3+(4*5)` and not `(3+4)*5`. This project's precendence is mainly taken from [this cppreference page](http://en.cppreference.com/w/c/language/operator_precedence).
+
+Precedence | Symbols | Names | Associativity
+---------- | ------- | ----- | -------------
+1 | `++` `--` | PostfixIncrement, PostfixDecrement | left-to-right
+2 | `++` `--`<br>`+` `-`<br>`!` `~`<br>`(bool)` `(int)` `(real)` `(string)` | PrefixIncrement, PrefixDecrement<br>UnaryPlus, UnaryMinus<br>LogicalNot, BitwiseNot<br>TypecastBool, TypecastInt, TypecastReal, TypecastString | right-to-left
+3 | `*` `/` `%` | Multiply, Divide, Modulo | left-to-right
+4 | `+` `-` | Add, Subtract | left-to-right
+5 | `<<` `>>` | BitshiftLeft, BitshiftRight | left-to-right
+6 | `<` `<=`<br>`>` `>=` | LessThan, LessThanOrEqual<br>GreaterThan, GreaterThanOrEqual | left-to-right
+7 | `==` `!=` | Equal, NotEqual | left-to-right
+8 | `&` | BitwiseAnd | left-to-right
+9 | `^` | BitwiseXor | left-to-right
+10 | `\|` | BitwiseOr | left-to-right
+11 | `&&` | LogicalAnd | left-to-right
+12 | `\|\|` | LogicalOr | left-to-right
+13 | `=`<br>`+=` `-=`<br>`*=` `/=` `%=`<br>`<<=` `>>=`<br>`&=` `^=` `\|=` | Assignment<br>AddAssignment, SubtractAssignment<br>MultiplyAssignment, DivideAssignment, ModuloAssignment<br>BitshiftLeftAssignment, BitshiftRightAssignment<br>BitwiseAndAssignment, BitwiseXorAssignment, BitwiseOrAssignment | right-to-left
+
+
+
+
 
 
 

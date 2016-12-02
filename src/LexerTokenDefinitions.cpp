@@ -279,6 +279,35 @@ namespace ast
 			}
 		}
 		
+		ParsedVariableType getResultingType(ParsedUnaryOperation puOperation, ParsedVariableType inputPvType)
+		{
+			switch(puOperation)
+			{
+				case ParsedUnaryOperation::LogicalNot		:														//logical operations always result in bool
+				case ParsedUnaryOperation::TypecastBool		: return ParsedVariableType::Bool;						//typecasts always have the effect of changing the resulting type
+				case ParsedUnaryOperation::TypecastInt		: return ParsedVariableType::Int;
+				case ParsedUnaryOperation::TypecastReal		: return ParsedVariableType::Real;
+				case ParsedUnaryOperation::TypecastString	: return ParsedVariableType::String;
+				default										: return inputPvType;
+			}
+		}
+		
+		ParsedVariableType getResultingType(ParsedBinaryOperation pbOperation, ParsedVariableType inputPvType)
+		{
+			switch(pbOperation)
+			{
+				case ParsedBinaryOperation::LogicalAnd			:
+				case ParsedBinaryOperation::LogicalOr			:
+				case ParsedBinaryOperation::LessThan			:
+				case ParsedBinaryOperation::LessThanOrEqual		:
+				case ParsedBinaryOperation::GreaterThan			:
+				case ParsedBinaryOperation::GreaterThanOrEqual	:
+				case ParsedBinaryOperation::Equal				:
+				case ParsedBinaryOperation::NotEqual			: return ParsedVariableType::Bool;					//logical and comparison operators always result in bool
+				default											: return inputPvType;	
+			}
+		}
+		
 		ValueCategory getRequiredValueCategory(ParsedUnaryOperation puOperation)
 		{
 			switch(puOperation)

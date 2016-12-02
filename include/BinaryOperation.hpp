@@ -35,21 +35,7 @@ namespace ast
 			std::shared_ptr<Value>								getLhs();
 			Lexer::ParsedBinaryOperation						getOperation();
 			std::shared_ptr<Value>								getRhs();
-			virtual Lexer::ParsedVariableType					getEffectiveType()
-			{
-				switch(operation)
-				{
-					case Lexer::ParsedBinaryOperation::LogicalAnd			:
-					case Lexer::ParsedBinaryOperation::LogicalOr			:
-					case Lexer::ParsedBinaryOperation::LessThan				:
-					case Lexer::ParsedBinaryOperation::LessThanOrEqual		:
-					case Lexer::ParsedBinaryOperation::GreaterThan			:
-					case Lexer::ParsedBinaryOperation::GreaterThanOrEqual	:
-					case Lexer::ParsedBinaryOperation::Equal				:
-					case Lexer::ParsedBinaryOperation::NotEqual				: return Lexer::ParsedVariableType::Bool;		//logical and comparison operators always result in bool
-					default													: return (lhs==nullptr ? (rhs==nullptr ? Lexer::ParsedVariableType::Invalid : rhs->getEffectiveType()) : lhs->getEffectiveType());		//it is guaranteed by the parser that "lhs" and "rhs" have the same type, so it's irrelevant wheather "lhs" or "rhs" is used here
-				}
-			}
+			virtual Lexer::ParsedVariableType					getEffectiveType() { return Lexer::getResultingType(operation, lhs==nullptr ? (rhs==nullptr ? Lexer::ParsedVariableType::Invalid : rhs->getEffectiveType()) : lhs->getEffectiveType()); }		//it is guaranteed by the parser that "lhs" and "rhs" have the same type, so it's irrelevant wheather "lhs" or "rhs" is used here
 			virtual Lexer::ValueCategory						getValueCategory() { return getResultingValueCategory(); }
 			Lexer::ValueCategory								getRequiredLhsValueCategory();
 			Lexer::ValueCategory								getRequiredRhsValueCategory();

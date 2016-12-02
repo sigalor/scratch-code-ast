@@ -133,6 +133,8 @@ namespace ast
 		
 		bool													isTypeAllowed(ParsedUnaryOperation puOperation, ParsedVariableType pvType);
 		bool													isTypeAllowed(ParsedBinaryOperation pbOperation, ParsedVariableType pvType);
+		ParsedVariableType										getResultingType(ParsedUnaryOperation puOperation, ParsedVariableType inputPvType);
+		ParsedVariableType										getResultingType(ParsedBinaryOperation pbOperation, ParsedVariableType inputPvType);
 		
 		ValueCategory											getRequiredValueCategory(ParsedUnaryOperation puOperation);
 		ValueCategory											getResultingValueCategory(ParsedUnaryOperation puOperation);
