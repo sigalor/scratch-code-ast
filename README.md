@@ -157,7 +157,7 @@ Multiply | `*` | int, real | _(any)_ | _(any)_ | rvalue | _(input type kept)_
 Divide | `/` | int, real | _(any)_ | _(any)_ | rvalue | _(input type kept)_
 Modulo | `%` | int, real | _(any)_ | _(any)_ | rvalue | _(input type kept)_
 BitwiseAnd | `&` | bool, int | _(any)_ | _(any)_ | rvalue | _(input type kept)_
-BitwiseOr | `\|` | bool, int | _(any)_ | _(any)_ | rvalue | _(input type kept)_
+BitwiseOr | `|` | bool, int | _(any)_ | _(any)_ | rvalue | _(input type kept)_
 BitwiseXor | `^` | bool, int | _(any)_ | _(any)_ | rvalue | _(input type kept)_
 BitshiftLeft | `<<` | int | _(any)_ | _(any)_ | rvalue | _(input type kept)_
 BitshiftRight | `>>` | int | _(any)_ | _(any)_ | rvalue | _(input type kept)_
@@ -168,12 +168,12 @@ MultiplyAssignment | `*=` | int, real | lvalue | _(any)_ | lvalue | _(input type
 DivideAssignment | `/=` | int, real | lvalue | _(any)_ | lvalue | _(input type kept)_
 ModuloAssignment | `%=` | int, real | lvalue | _(any)_ | lvalue | _(input type kept)_
 BitwiseAndAssignment | `&=` | bool, int | lvalue | _(any)_ | lvalue | _(input type kept)_
-BitwiseOrAssignment | `\|=` | bool, int | lvalue | _(any)_ | lvalue | _(input type kept)_
+BitwiseOrAssignment | `|=` | bool, int | lvalue | _(any)_ | lvalue | _(input type kept)_
 BitwiseXorAssignment | `^=` | bool, int | lvalue | _(any)_ | lvalue | _(input type kept)_
 BitshiftLeftAssignment | `<<=` | int | lvalue | _(any)_ | lvalue | _(input type kept)_
 BitshiftRightAssignment | `>>=` | int | lvalue | _(any)_ | lvalue | _(input type kept)_
 LogicalAnd | `&&` | bool, int, real, string | _(any)_ | _(any)_ | rvalue | bool
-LogicalOr | `\|\|` | bool, int, real, string | _(any)_ | _(any)_ | rvalue | bool
+LogicalOr | `||` | bool, int, real, string | _(any)_ | _(any)_ | rvalue | bool
 LessThan | `<` | bool, int, real, string | _(any)_ | _(any)_ | rvalue | bool
 LessThanOrEqual | `<=` | bool, int, real, string | _(any)_ | _(any)_ | rvalue | bool
 GreaterThan | `>` | bool, int, real, string | _(any)_ | _(any)_ | rvalue | bool
@@ -195,10 +195,10 @@ Precedence | Symbols | Names | Associativity
 7 | `==` `!=` | Equal, NotEqual | left-to-right
 8 | `&` | BitwiseAnd | left-to-right
 9 | `^` | BitwiseXor | left-to-right
-10 | `\|` | BitwiseOr | left-to-right
+10 | `|` | BitwiseOr | left-to-right
 11 | `&&` | LogicalAnd | left-to-right
-12 | `\|\|` | LogicalOr | left-to-right
-13 | `=`<br>`+=` `-=`<br>`*=` `/=` `%=`<br>`<<=` `>>=`<br>`&=` `^=` `\|=` | Assignment<br>AddAssignment, SubtractAssignment<br>MultiplyAssignment, DivideAssignment, ModuloAssignment<br>BitshiftLeftAssignment, BitshiftRightAssignment<br>BitwiseAndAssignment, BitwiseXorAssignment, BitwiseOrAssignment | right-to-left
+12 | `||` | LogicalOr | left-to-right
+13 | `=`<br>`+=` `-=`<br>`*=` `/=` `%=`<br>`<<=` `>>=`<br>`&=` `^=` `|=` | Assignment<br>AddAssignment, SubtractAssignment<br>MultiplyAssignment, DivideAssignment, ModuloAssignment<br>BitshiftLeftAssignment, BitshiftRightAssignment<br>BitwiseAndAssignment, BitwiseXorAssignment, BitwiseOrAssignment | right-to-left
 
 
 

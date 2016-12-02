@@ -1,3 +1,23 @@
+/*
+ *   Copyright 2016 sigalor
+ *
+ *   File: scratch-code-ast/src/Utilities.cpp
+ *
+ *   Licensed under the Apache License, Version 2.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *   Unless required by applicable law or agreed to in writing, software
+ *   distributed under the License is distributed on an "AS IS" BASIS,
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *   See the License for the specific language governing permissions and
+ *   limitations under the License.
+ */
+
+
+
 #include "Utilities.hpp"
 
 
@@ -88,10 +108,11 @@ namespace ast
 			doRecursively(real->getCondition(), funcs);
 			doRecursively(real->getBody(), funcs);
 		}
-		else
-		{
-			//error handling or ignore?
-		}
+	}
+	
+	void optimize(std::shared_ptr<Node> obj)
+	{
+		//TODO
 	}
 
 	std::string stringify(std::shared_ptr<Node> obj, std::size_t indent, bool indentFirstLine, bool newlineAfterLastLine, bool fullOutput)

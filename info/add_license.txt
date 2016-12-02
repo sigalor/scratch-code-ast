@@ -1,7 +1,13 @@
+for f in *.hpp; do cat ../licbegin.txt $f | sed "s/{{FILE}}/scratch-code-ast\/include\/$f/" > $f-new; mv $f $f-old; mv $f-new $f; done
+
+for f in *; do g=$(echo $f | sed "s/-old//"); mv $f $g; done
+
+
+
 /*
  *   Copyright 2016 sigalor
  *
- *   File: scratch-code-ast/src/ControllableLoop.cpp
+ *   File: {{FILE}}
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
  *   you may not use this file except in compliance with the License.
@@ -18,17 +24,3 @@
 
 
 
-#include "ControllableLoop.hpp"
-
-
-
-namespace ast
-{
-	const int ControllableLoop::uniqueId = 0x00002411;
-
-	ControllableLoop::ControllableLoop(int newId) : ControlFlowStatement(newId) { }
-	ControllableLoop::ControllableLoop(int newId, std::shared_ptr<Node> newParent) : ControlFlowStatement(newId, newParent) { }
-
-	ControllableLoop::ControllableLoop() : ControlFlowStatement(uniqueId) { }
-	ControllableLoop::ControllableLoop(std::shared_ptr<Node> newParent) : ControlFlowStatement(uniqueId, newParent) { }
-}
