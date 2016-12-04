@@ -14,7 +14,7 @@ DEP_FILES=$(addprefix $(PROJECT_DEP_DIR)/,$(notdir $(CPP_FILES:.cpp=.d)))
 FINAL_LIBRARY=$(PROJECT_LIB_DIR)/lib$(PROJECT_NAME).a
 
 # include paths
-INCLUDE_PATHS=-I$(PROJECT_INCLUDE_DIR) -I$(PROJECT_EXT_DIR)/boost
+INCLUDE_PATHS=-I$(PROJECT_INCLUDE_DIR) -I$(PROJECT_EXT_DIR)/boost/include
 
 # names and options for used programs
 CXX=g++

@@ -28,20 +28,20 @@ namespace ast
 
 	Conditional::Conditional(int newId) : ControlFlowStatement(newId) { }
 	Conditional::Conditional(int newId, std::shared_ptr<Node> newParent) : ControlFlowStatement(newId, newParent) { }
-	Conditional::Conditional(int newId, std::shared_ptr<Node> newParent, std::vector<std::shared_ptr<Value>> newConditions, std::vector<std::shared_ptr<StatementList>> newConsequenceBodies, std::shared_ptr<StatementList> newAlternativeBody) : ControlFlowStatement(newId, newParent), conditions(newConditions), consequenceBodies(newConsequenceBodies), alternativeBody(newAlternativeBody) { }
+	Conditional::Conditional(int newId, std::shared_ptr<Node> newParent, std::shared_ptr<Value> newCondition, std::shared_ptr<StatementList> newConsequenceBody, std::shared_ptr<StatementList> newAlternativeBody) : ControlFlowStatement(newId, newParent), condition(newCondition), consequenceBody(newConsequenceBody), alternativeBody(newAlternativeBody) { }
 
 	Conditional::Conditional() : ControlFlowStatement(uniqueId) { }
 	Conditional::Conditional(std::shared_ptr<Node> newParent) : ControlFlowStatement(uniqueId, newParent) { }
-	Conditional::Conditional(std::shared_ptr<Node> newParent, std::vector<std::shared_ptr<Value>> newConditions, std::vector<std::shared_ptr<StatementList>> newConsequenceBodies, std::shared_ptr<StatementList> newAlternativeBody) : ControlFlowStatement(uniqueId, newParent), conditions(newConditions), consequenceBodies(newConsequenceBodies), alternativeBody(newAlternativeBody) { }
+	Conditional::Conditional(std::shared_ptr<Node> newParent, std::shared_ptr<Value> newCondition, std::shared_ptr<StatementList> newConsequenceBody, std::shared_ptr<StatementList> newAlternativeBody) : ControlFlowStatement(uniqueId, newParent), condition(newCondition), consequenceBody(newConsequenceBody), alternativeBody(newAlternativeBody) { }
 	
-	std::vector<std::shared_ptr<Value>>& Conditional::getConditions()
+	std::shared_ptr<Value> Conditional::getCondition()
 	{
-		return conditions;
+		return condition;
 	}
 	
-	std::vector<std::shared_ptr<StatementList>>& Conditional::getConsequenceBodies()
+	std::shared_ptr<StatementList> Conditional::getConsequenceBody()
 	{
-		return consequenceBodies;
+		return consequenceBody;
 	}
 	
 	std::shared_ptr<StatementList> Conditional::getAlternativeBody()
@@ -49,14 +49,14 @@ namespace ast
 		return alternativeBody;
 	}
 	
-	void Conditional::addCondition(std::shared_ptr<Value> newCondition)
+	void Conditional::setCondition(std::shared_ptr<Value> newCondition)
 	{
-		conditions.push_back(newCondition);
+		condition = newCondition;
 	}
 	
-	void Conditional::addConsequenceBody(std::shared_ptr<StatementList> newConsequenceBody)
+	void Conditional::setConsequenceBody(std::shared_ptr<StatementList> newConsequenceBody)
 	{
-		consequenceBodies.push_back(newConsequenceBody);
+		consequenceBody = newConsequenceBody;
 	}
 	
 	void Conditional::setAlternativeBody(std::shared_ptr<StatementList> newAlternativeBody)

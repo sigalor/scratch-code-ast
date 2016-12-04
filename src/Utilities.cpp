@@ -38,10 +38,8 @@ namespace ast
 		else if(doFunctionForType<Conditional>(obj, funcs))
 		{
 			auto real = std::static_pointer_cast<Conditional>(obj);
-			for(auto c : real->getConditions())
-				doRecursively(c, funcs);
-			for(auto cb : real->getConsequenceBodies())
-				doRecursively(cb, funcs);
+			doRecursively(real->getCondition(), funcs);
+			doRecursively(real->getConsequenceBody(), funcs);
 			doRecursively(real->getAlternativeBody(), funcs);
 		}
 		else if(doFunctionForType<ControlFlowStatement>(obj, funcs)) { }
@@ -150,20 +148,10 @@ namespace ast
 			std::shared_ptr<Conditional> objReal(std::static_pointer_cast<Conditional>(obj));
 			ret.insert(fl.size(), "Conditional");
 			if(fullOutput)
-			{
 				ret += ",\n" +
-					   indentStr1 + "conditions = std::vector of size " + std::to_string(objReal->getConditions().size()) + "\n" +
-					   indentStr1 + "[\n";
-				for(auto it = objReal->getConditions().begin(); it != objReal->getConditions().end(); ++it)
-					ret += stringify(*it, indent+2, true, false) + (it+1 != objReal->getConditions().end() ? "," : "") + "\n";
-				ret += indentStr1 + "],\n" +
-					   indentStr1 + "consequenceBodies = std::vector of size " + std::to_string(objReal->getConsequenceBodies().size()) + "\n" +
-					   indentStr1 + "[\n";
-				for(auto it = objReal->getConsequenceBodies().begin(); it != objReal->getConsequenceBodies().end(); ++it)
-					ret += stringify(*it, indent+2, true, false) + (it+1 != objReal->getConsequenceBodies().end() ? "," : "") + "\n";
-				ret += indentStr1 + "],\n" +
+					   indentStr1 + "condition = " + stringify(objReal->getCondition(), indent+1, false, false) + ",\n" +
+					   indentStr1 + "consequenceBody = " + stringify(objReal->getConsequenceBody(), indent+1, false, false) + ",\n" +
 					   indentStr1 + "alternativeBody = " + stringify(objReal->getAlternativeBody(), indent+1, false, true);
-			}
 		}
 		else if(obj->getId() == ControlFlowStatement::uniqueId)
 		{

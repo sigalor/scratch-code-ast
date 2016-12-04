@@ -40,24 +40,24 @@ namespace ast
 			static const int									uniqueId;
 	
 		private:
-			std::vector<std::shared_ptr<Value>>					conditions;
-			std::vector<std::shared_ptr<StatementList>>			consequenceBodies;
+			std::shared_ptr<Value>								condition;
+			std::shared_ptr<StatementList>						consequenceBody;
 			std::shared_ptr<StatementList>						alternativeBody;
 		
 		protected:
 			Conditional(int newId);
 			Conditional(int newId, std::shared_ptr<Node> newParent);
-			Conditional(int newId, std::shared_ptr<Node> newParent, std::vector<std::shared_ptr<Value>> newConditions, std::vector<std::shared_ptr<StatementList>> newConsequenceBodies, std::shared_ptr<StatementList> newAlternativeBody);
+			Conditional(int newId, std::shared_ptr<Node> newParent, std::shared_ptr<Value> newCondition, std::shared_ptr<StatementList> newConsequenceBody, std::shared_ptr<StatementList> newAlternativeBody);
 		
 		public:
 			Conditional();
 			Conditional(std::shared_ptr<Node> newParent);
-			Conditional(std::shared_ptr<Node> newParent, std::vector<std::shared_ptr<Value>> newConditions, std::vector<std::shared_ptr<StatementList>> newConsequenceBodies, std::shared_ptr<StatementList> newAlternativeBody);
-			std::vector<std::shared_ptr<Value>>&				getConditions();
-			std::vector<std::shared_ptr<StatementList>>&		getConsequenceBodies();
+			Conditional(std::shared_ptr<Node> newParent, std::shared_ptr<Value> newCondition, std::shared_ptr<StatementList> newConsequenceBody, std::shared_ptr<StatementList> newAlternativeBody);
+			std::shared_ptr<Value>								getCondition();
+			std::shared_ptr<StatementList>						getConsequenceBody();
 			std::shared_ptr<StatementList>						getAlternativeBody();
-			void												addCondition(std::shared_ptr<Value> newCondition);
-			void												addConsequenceBody(std::shared_ptr<StatementList> newConsequenceBody);
+			void												setCondition(std::shared_ptr<Value> newCondition);
+			void												setConsequenceBody(std::shared_ptr<StatementList> newConsequenceBody);
 			void												setAlternativeBody(std::shared_ptr<StatementList> newAlternativeBody);
 	};
 }
