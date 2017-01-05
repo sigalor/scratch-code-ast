@@ -53,6 +53,18 @@ namespace ast
 			void												setParent(std::shared_ptr<Node> newParent);
 			std::shared_ptr<Node>								searchParents(std::function<bool(std::shared_ptr<Node>)> condition, std::size_t* steps);
 			
+			//gets the mask of an id base, e.g. idBaseInQuestion==0x00032451 --> returns 0x000FFFFF or idBaseInQuestion==0x00000021 --> returns 0x000000FF)
+			int getIdBaseMask(int idBaseInQuestion)
+			{
+				int idBaseOrig = idBaseInQuestion, idBaseMask = 0;
+				while(idBaseOrig > 0)																				//I designed the different class IDs so that the less significant nibbles are the same across derived instances and become numbered, e.g. Node::uniqueId=0x00000001 --> Statement::uniqueId=0x00000011 and StatementList::uniqueId=0x00000021 and VariableDefinitionList::uniqueId=0x00000031 etc.   or   Operation::uniqueId=0x00003311 --> UnaryOperation::uniqueId=0x00013311 and BinaryOperation::uniqueId=0x00023311
+				{																									//that's why just the "base size" of 'idBaseInQuestion' has to be calculated (as a bitmask) to check later instances (e.g. see lambda in "hasParentWithIdBase")
+					idBaseMask = (idBaseMask << 4) | 0xF;
+					idBaseOrig >>= 4;
+				}
+				return idBaseMask;
+			}
+			
 			//checks if the current instance has the given id
 			bool isA(int idInQuestion)
 			{
@@ -67,6 +79,20 @@ namespace ast
 				return isA(T::uniqueId);
 			}
 			
+			//checks wheather the current instance's id is derived from the one given
+			bool isABase(int idBaseInQuestion)
+			{
+				return ((getId() & getIdBaseMask(idBaseInQuestion)) == idBaseInQuestion);
+			}
+			
+			//like 'isABase', but more comfortable because of template argument
+			template<typename T>
+			typename std::enable_if_t<std::is_base_of<Node, T>::value, bool>
+			isABase()
+			{
+				return isABase(T::uniqueId);
+			}
+			
 			//checks wheather 'parent' is one of the parents (i.e. not only direct parent, but also grandparent, grand-grandparent etc.) of 'subject'
 			template<typename T>
 			std::shared_ptr<T> hasParent(std::shared_ptr<Node> parentInQuestion, std::size_t* steps=nullptr)
@@ -75,7 +101,7 @@ namespace ast
 				return std::static_pointer_cast<T>(searchParents([&](std::shared_ptr<Node> subject) -> bool { return (subject == parentInQuestion); }, steps));
 			}
 			
-			//checks wheater one of the parents (defined like above) of 'subject' has the id 'id'
+			//checks wheater one of the parents (defined like above) of 'subject' has one of the ids in 'idsInQuestion'
 			template<typename T>
 			std::shared_ptr<T> hasParentWithId(std::vector<int> idsInQuestion, std::size_t* steps=nullptr)
 			{
@@ -100,12 +126,7 @@ namespace ast
 			template<typename T>
 			std::shared_ptr<T> hasParentWithIdBase(int idBaseInQuestion, std::size_t* steps=nullptr)
 			{
-				int idBaseOrig = idBaseInQuestion, idBaseMask = 0;
-				while(idBaseOrig > 0)																				//I designed the different class IDs so that the less significant nibbles are the same across derived instances and become numbered, e.g. Node::uniqueId=0x00000001 --> Statement::uniqueId=0x00000011 and StatementList::uniqueId=0x00000021 and VariableDefinitionList::uniqueId=0x00000031 etc.   or   Operation::uniqueId=0x00003311 --> UnaryOperation::uniqueId=0x00013311 and BinaryOperation::uniqueId=0x00023311
-				{																									//that's why just the "base size" of 'idBaseInQuestion' has to be calculated (as a bitmask) to check later instances (see lambda below)
-					idBaseMask = (idBaseMask << 4) | 0xF;
-					idBaseOrig >>= 4;
-				}
+				int idBaseMask = getIdBaseMask(idBaseInQuestion);
 				return std::static_pointer_cast<T>(searchParents([&](std::shared_ptr<Node> subject) -> bool { return ((subject->getId() & idBaseMask) == idBaseInQuestion); }, steps));
 			}
 			
