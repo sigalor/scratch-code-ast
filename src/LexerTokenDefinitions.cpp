@@ -110,6 +110,22 @@ namespace ast
 			}
 		}
 		
+		const std::string getStringVerbose(ParsedFunctionModifier pFuncMod)
+		{
+			switch(pFuncMod)
+			{
+				case ParsedFunctionModifier::Invalid					: return "Invalid";
+				case ParsedFunctionModifier::OnGreenFlag				: return "OnGreenFlag";
+				case ParsedFunctionModifier::OnKeyPressed				: return "OnKeyPressed";
+				case ParsedFunctionModifier::OnThisClicked				: return "OnThisClicked";
+				case ParsedFunctionModifier::OnBackdropSwitch			: return "OnBackdropSwitch";
+				case ParsedFunctionModifier::OnSensorGreaterThan		: return "OnSensorGreaterThan";
+				case ParsedFunctionModifier::OnReceive					: return "OnReceive";
+				case ParsedFunctionModifier::OnClone					: return "OnClone";
+				default													: return "Unknown";
+			}
+		}
+		
 		const std::string getStringVerbose(ValueCategory valueCategory)
 		{
 			switch(valueCategory)
@@ -202,6 +218,22 @@ namespace ast
 				case ParsedLoopControlStatement::Invalid				: return "invalid";
 				case ParsedLoopControlStatement::Break					: return "break";
 				case ParsedLoopControlStatement::Continue				: return "continue";
+				default													: return "unknown";
+			}
+		}
+		
+		const std::string getString(ParsedFunctionModifier pFuncMod)
+		{
+			switch(pFuncMod)
+			{
+				case ParsedFunctionModifier::Invalid					: return "invalid";
+				case ParsedFunctionModifier::OnGreenFlag				: return "scratch_onGreenFlag";
+				case ParsedFunctionModifier::OnKeyPressed				: return "scratch_onKeyPressed";
+				case ParsedFunctionModifier::OnThisClicked				: return "scratch_onThisClicked";
+				case ParsedFunctionModifier::OnBackdropSwitch			: return "scratch_onBackdropSwitch";
+				case ParsedFunctionModifier::OnSensorGreaterThan		: return "scratch_onSensorGreaterThan";
+				case ParsedFunctionModifier::OnReceive					: return "scratch_onReceive";
+				case ParsedFunctionModifier::OnClone					: return "scratch_onClone";
 				default													: return "unknown";
 			}
 		}

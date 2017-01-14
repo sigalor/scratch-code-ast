@@ -24,6 +24,8 @@
 
 #include <type_traits>
 #include <string>
+#include <vector>
+#include <utility>
 
 
 namespace ast
@@ -126,6 +128,18 @@ namespace ast
 			Continue
 		};
 		
+		enum class ParsedFunctionModifier : UnderlyingTokenType
+		{
+			Invalid = -1,
+			OnGreenFlag,
+			OnKeyPressed,
+			OnThisClicked,
+			OnBackdropSwitch,
+			OnSensorGreaterThan,
+			OnReceive,
+			OnClone
+		};
+		
 		enum class ValueCategory : UnderlyingTokenType
 		{
 			Invalid = -1,
@@ -144,11 +158,13 @@ namespace ast
 		const std::string										getStringVerbose(ParsedUnaryOperation puOperation);
 		const std::string										getStringVerbose(ParsedBinaryOperation pbOperation);
 		const std::string										getStringVerbose(ParsedLoopControlStatement plcStatement);
+		const std::string										getStringVerbose(ParsedFunctionModifier pFuncMod);
 		const std::string										getStringVerbose(ValueCategory valueCategory);
 		const std::string										getString(ParsedVariableType pvType);
 		const std::string										getString(ParsedUnaryOperation puOperation);
 		const std::string										getString(ParsedBinaryOperation pbOperation);
 		const std::string										getString(ParsedLoopControlStatement plcStatement);
+		const std::string										getString(ParsedFunctionModifier pFuncMod);
 		const std::string										getString(ValueCategory valueCategory);
 		
 		bool													isTypeAllowed(ParsedUnaryOperation puOperation, ParsedVariableType pvType);

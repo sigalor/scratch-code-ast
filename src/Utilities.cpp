@@ -61,6 +61,8 @@ namespace ast
 		{
 			auto real = std::static_pointer_cast<FunctionDefinition>(obj);
 			doRecursively(real->getArgs(), funcs);
+			doRecursively(real->getModifierFunctionCall(), funcs);
+			doRecursively(real->getModifierArgs(), funcs);
 			doRecursively(real->getBody(), funcs);
 		}
 		else if(doFunctionForType<LoopControlStatement>(obj, funcs)) { }											//"real->getTargetLoop()" is ignored for the same reason
@@ -194,6 +196,9 @@ namespace ast
 					   indentStr1 + "returnType = ParsedVariableType::" + Lexer::getStringVerbose(objReal->getReturnType()) + ",\n" +
 					   indentStr1 + "name = \"" + objReal->getName() + "\",\n" +
 					   indentStr1 + "args = " + stringify(objReal->getArgs(), indent+1, false, false) + ",\n" +
+					   indentStr1 + "modifierFunctionCall = " + stringify(objReal->getModifierFunctionCall(), indent+1, false, false) + ",\n" +
+					   indentStr1 + "modifier = ParsedFunctionModifier::" + Lexer::getStringVerbose(objReal->getModifier()) + ",\n" +
+					   indentStr1 + "modifierArgs = " + stringify(objReal->getModifierArgs(), indent+1, false, false) + ",\n" +
 					   indentStr1 + "body = " + stringify(objReal->getBody(), indent+1, false, true);
 		}
 		else if(obj->getId() == LoopControlStatement::uniqueId)

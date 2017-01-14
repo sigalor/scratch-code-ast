@@ -28,6 +28,7 @@
 #include "Node.hpp"
 #include "Statement.hpp"
 #include "StatementList.hpp"
+#include "ValueList.hpp"
 #include "VariableDefinitionList.hpp"
 #include "LexerTokenDefinitions.hpp"
 
@@ -35,6 +36,8 @@
 
 namespace ast
 {
+	class FunctionCall;
+
 	class FunctionDefinition : public Statement
 	{
 		public:
@@ -44,24 +47,39 @@ namespace ast
 			Lexer::ParsedVariableType							returnType;
 			std::string											name;
 			std::shared_ptr<VariableDefinitionList>				args;
+			std::shared_ptr<FunctionCall>						modifierFunctionCall;
+			Lexer::ParsedFunctionModifier						modifier;
+			std::shared_ptr<ValueList>							modifierArgs;
 			std::shared_ptr<StatementList>						body;
 		
 		protected:
 			FunctionDefinition(int newId);
 			FunctionDefinition(int newId, std::shared_ptr<Node> newParent);
-			FunctionDefinition(int newId, std::shared_ptr<Node> newParent, Lexer::ParsedVariableType newReturnType, const std::string& newName, std::shared_ptr<VariableDefinitionList> newArgs, std::shared_ptr<StatementList> newBody);
+			FunctionDefinition(int newId, std::shared_ptr<Node> newParent, Lexer::ParsedVariableType newReturnType, const std::string& newName, std::shared_ptr<VariableDefinitionList> newArgs, std::shared_ptr<FunctionCall> newModifierFunctionCall, std::shared_ptr<StatementList> newBody);
+			FunctionDefinition(int newId, std::shared_ptr<Node> newParent, Lexer::ParsedVariableType newReturnType, const std::string& newName, std::shared_ptr<VariableDefinitionList> newArgs, Lexer::ParsedFunctionModifier newModifier, std::shared_ptr<ValueList> newModifierArgs, std::shared_ptr<StatementList> newBody);
 		
 		public:
 			FunctionDefinition();
 			FunctionDefinition(std::shared_ptr<Node> newParent);
-			FunctionDefinition(std::shared_ptr<Node> newParent, Lexer::ParsedVariableType newReturnType, const std::string& newName, std::shared_ptr<VariableDefinitionList> newArgs, std::shared_ptr<StatementList> newBody);
+			FunctionDefinition(std::shared_ptr<Node> newParent, Lexer::ParsedVariableType newReturnType, const std::string& newName, std::shared_ptr<VariableDefinitionList> newArgs, std::shared_ptr<FunctionCall> newModifierFunctionCall, std::shared_ptr<StatementList> newBody);
+			FunctionDefinition(std::shared_ptr<Node> newParent, Lexer::ParsedVariableType newReturnType, const std::string& newName, std::shared_ptr<VariableDefinitionList> newArgs, Lexer::ParsedFunctionModifier newModifier, std::shared_ptr<ValueList> newModifierArgs, std::shared_ptr<StatementList> newBody);
 			Lexer::ParsedVariableType							getReturnType();
 			const std::string&									getName();
 			std::shared_ptr<VariableDefinitionList>				getArgs();
+			std::shared_ptr<FunctionCall>						getModifierFunctionCall();
+			Lexer::ParsedFunctionModifier						getModifier();
+			std::shared_ptr<ValueList>							getModifierArgs();
 			std::shared_ptr<StatementList>						getBody();
 			void												setReturnType(Lexer::ParsedVariableType newReturnType);
 			void												setName(const std::string& newName);
 			void												setArgs(std::shared_ptr<VariableDefinitionList> newArgs);
+			void												setModifierFunctionCall(std::shared_ptr<FunctionCall> newModifierFunc);
+			void												setModifier(Lexer::ParsedFunctionModifier newModifier);
+			void												setModifierArgs(std::shared_ptr<ValueList> newModifierArgs);
 			void												setBody(std::shared_ptr<StatementList> newBody);
 	};
 }
+
+
+
+#include "FunctionCall.hpp"

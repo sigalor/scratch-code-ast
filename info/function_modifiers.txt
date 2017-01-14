@@ -1,0 +1,17 @@
+Function modifiers:
+ - scratch_onGreenFlag
+ - scratch_onKeyPressed(someKey)
+    --> any, space, arrow keys, a-z, 0-9
+    --> format: scratch_onKeyPressed_any, scratch_onKeyPressed_space,
+    			scratch_onKeyPressed_upArrow, scratch_onKeyPressed_downArrow, scratch_onKeyPressed_rightArrow, scratch_onKeyPressed_leftArrow,
+    			scratch_onKeyPressed_a, scratch_onKeyPressed_b, ..., scratch_onKeyPressed_z,
+    			scratch_onKeyPressed_0, ..., scratch_onKeyPressed_9
+ - scratch_onThisClicked
+ - scratch_onBackdropSwitch("stage costume name")
+    --> stage costume with specified name has to exist (checked during translation, not parsing)
+ - scratch_onLoudnessGreaterThan(integerValue)
+ - scratch_onTimerGreaterThan(integerValue)
+ - scratch_onVideoMotionGreaterThan(integerValue)
+ - scratch_onReceive("message")
+    --> ONLY strings (i.e. the RValueValue ones) are allowed, values involving operators are currently not handled well by Scratch
+ - scratch_onClone
